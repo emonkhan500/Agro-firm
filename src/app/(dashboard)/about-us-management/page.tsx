@@ -1,8 +1,8 @@
 const page = () => {
   return (
-    <section>
-      <p>abcd</p>
-    </section>
+    <>
+      <h1>About Us Information</h1>
+    </>
   );
 };
 
