@@ -1,0 +1,6 @@
+export {default as Menu} from './Menu'
+export {default as Location} from './Location'
+export {default as Phone} from './Phone'
+export {default as Inbox} from './Inbox'
+export {default as Right} from './Right'
+export {default as Left} from './Left'
