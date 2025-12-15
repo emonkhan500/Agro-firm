@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   CloudArrowUpIcon,
   MagnifyingGlassIcon,
@@ -11,6 +11,11 @@ import Image from 'next/image';
 const DashMediaManagement = () => {
   const [openModal, setOpenModal] = useState(false);
   const [media, setMedia] = useState<string[]>([]);
+  useEffect(() => {
+    fetch('/uploads/media.json')
+      .then((res) => res.json())
+      .then((data) => setMedia(data));
+  }, []);
 
   const handleUpload = (imageUrl: string) => {
     setMedia((prev) => [imageUrl, ...prev]);
@@ -20,7 +25,6 @@ const DashMediaManagement = () => {
     <section className="p-6">
       {/* Header */}
       <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        {/* Search */}
         <div className="relative w-full md:max-w-md">
           <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
           <input
@@ -29,7 +33,6 @@ const DashMediaManagement = () => {
           />
         </div>
 
-        {/* Upload Button */}
         <button
           onClick={() => setOpenModal(true)}
           className="flex items-center gap-2 rounded-lg bg-active-nav px-6 xl:px-10 py-4 text-base font-medium text-white"
@@ -39,8 +42,7 @@ const DashMediaManagement = () => {
         </button>
       </div>
 
-      {/* Media Grid */}
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         {media.map((src, index) => (
           <div
             key={index}
@@ -53,17 +55,10 @@ const DashMediaManagement = () => {
               height={140}
               className="h-[140px] w-full object-cover"
             />
-
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition group-hover:opacity-100">
-              <span className="text-xs font-medium text-white">
-                View / Select
-              </span>
-            </div>
           </div>
         ))}
       </div>
 
-      {/* Modal */}
       <DashMediaModal
         open={openModal}
         onClose={() => setOpenModal(false)}
