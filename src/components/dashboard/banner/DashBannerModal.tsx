@@ -5,12 +5,14 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
 
+// Client-side Banner payload (includes imageFile)
 export interface BannerPayload {
-  id: number;
-  name: string;
-  image: string;
-  status: 'Active' | 'Inactive';
-  created: string;
+  title: string;
+  description: string;
+  status: 'active' | 'inactive';
+  buttonText: string;
+  buttonLink: string;
+  imageFile: File; // only client-side
 }
 
 interface Props {
@@ -24,24 +26,29 @@ const DashBannerModal = ({ open, onClose, onSubmit }: Props) => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      title: '',
+      description: '',
+      buttonText: '',
+      buttonLink: '',
       image: null as File | null,
     },
     validationSchema: Yup.object({
-      name: Yup.string().required('Banner name is required'),
+      title: Yup.string().required('Title is required'),
+      description: Yup.string().required('Description is required'),
+      buttonText: Yup.string().required('Button text is required'),
+      buttonLink: Yup.string().required('Button link is required'),
       image: Yup.mixed().required('Banner image is required'),
     }),
     onSubmit: (values, { resetForm }) => {
+      if (!values.image) return;
+
       onSubmit({
-        id: Date.now(),
-        name: values.name,
-        image: preview!,
-        status: 'Active',
-        created: new Date().toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        }),
+        title: values.title,
+        description: values.description,
+        buttonText: values.buttonText,
+        buttonLink: values.buttonLink,
+        status: 'active',
+        imageFile: values.image, // pass actual file
       });
 
       resetForm();
@@ -63,7 +70,6 @@ const DashBannerModal = ({ open, onClose, onSubmit }: Props) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div onClick={onClose} className="absolute inset-0 bg-black/40" />
-
       <div className="relative w-full max-w-2xl rounded-lg bg-white shadow-lg">
         {/* Header */}
         <div className="flex items-center justify-between border-b px-6 py-4">
@@ -74,31 +80,90 @@ const DashBannerModal = ({ open, onClose, onSubmit }: Props) => {
         </div>
 
         <form onSubmit={formik.handleSubmit}>
-          <div className="px-6 py-6 space-y-5">
-            {/* Name */}
+          <div className="space-y-4 px-6 py-6">
+            {/* Title */}
             <div>
               <label className="mb-1 block text-sm font-medium">
-                Banner Name <span className="text-red-500">*</span>
+                Title <span className="text-custom-red">*</span>
               </label>
               <input
-                name="name"
-                value={formik.values.name}
+                name="title"
+                value={formik.values.title}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className="w-full rounded-md border px-4 py-2 text-sm"
               />
-              {formik.touched.name && formik.errors.name && (
-                <p className="mt-1 text-xs text-red-500">
-                  {formik.errors.name}
+              {formik.touched.title && formik.errors.title && (
+                <p className="mt-1 text-xs text-custom-red">
+                  {formik.errors.title}
                 </p>
               )}
             </div>
 
-            {/* Image */}
+            {/* Description */}
+            <div>
+              <label className="mb-1 block text-sm font-medium">
+                Description <span className="text-custom-red">*</span>
+              </label>
+              <textarea
+                name="description"
+                rows={3}
+                value={formik.values.description}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className="w-full rounded-md border px-4 py-2 text-sm"
+              />
+              {formik.touched.description && formik.errors.description && (
+                <p className="mt-1 text-xs text-custom-red">
+                  {formik.errors.description}
+                </p>
+              )}
+            </div>
+
+            {/* Button Text */}
+            <div>
+              <label className="mb-1 block text-sm font-medium">
+                Button Text <span className="text-custom-red">*</span>
+              </label>
+              <input
+                name="buttonText"
+                value={formik.values.buttonText}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className="w-full rounded-md border px-4 py-2 text-sm"
+              />
+              {formik.touched.buttonText && formik.errors.buttonText && (
+                <p className="mt-1 text-xs text-custom-red">
+                  {formik.errors.buttonText}
+                </p>
+              )}
+            </div>
+
+            {/* Button Link */}
+            <div>
+              <label className="mb-1 block text-sm font-medium">
+                Button Link <span className="text-custom-red">*</span>
+              </label>
+              <input
+                name="buttonLink"
+                placeholder="e.g. shop-now"
+                value={formik.values.buttonLink}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className="w-full rounded-md border px-4 py-2 text-sm"
+              />
+              {formik.touched.buttonLink && formik.errors.buttonLink && (
+                <p className="mt-1 text-xs text-custom-red">
+                  {formik.errors.buttonLink}
+                </p>
+              )}
+            </div>
+
+            {/* Image Upload */}
             <div>
               <label className="mb-2 block text-sm font-medium">
-                Banner Image <span className="text-red-500">*</span>
+                Banner Image <span className="text-custom-red">*</span>
               </label>
-
               <label className="flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed bg-gray-50">
                 {preview ? (
                   <img
@@ -109,10 +174,10 @@ const DashBannerModal = ({ open, onClose, onSubmit }: Props) => {
                 ) : (
                   <>
                     <span className="text-xl">⬆️</span>
-                    <p className="font-medium">Click to upload or drag and drop</p>
-                    <p className="text-xs text-gray-500">
-                      PNG/JPG/JPEG/GIF/WEBP
+                    <p className="font-medium">
+                      Click to upload or drag and drop
                     </p>
+                    <p className="text-xs text-gray-500">PNG/JPG/JPEG</p>
                   </>
                 )}
                 <input
@@ -122,9 +187,8 @@ const DashBannerModal = ({ open, onClose, onSubmit }: Props) => {
                   onChange={handleImageChange}
                 />
               </label>
-
               {formik.touched.image && formik.errors.image && (
-                <p className="mt-1 text-xs text-red-500">
+                <p className="mt-1 text-xs text-custom-red">
                   {formik.errors.image as string}
                 </p>
               )}

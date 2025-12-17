@@ -1,3 +1,5 @@
+import { getBanners } from '@/app/actions/banner.action';
+import { getProducts } from '@/app/actions/products.action';
 import AboutUs from '@/components/home/AboutUs';
 import Banner from '@/components/home/Banner';
 import Contact from '@/components/home/Contact';
@@ -7,13 +9,15 @@ import Products from '@/components/home/Products';
 import Testimonial from '@/components/home/Testimonial';
 import WhyUs from '@/components/home/WhyUs';
 
-const HomeView = () => {
+const HomeView = async () => {
+  const banners = await getBanners();
+  const product = await getProducts();
   return (
     <>
-      <Banner />
+      <Banner banners={banners} />
       <AboutUs />
       <WhyUs />
-      <Products />
+      <Products product={product} />
       <Gallary />
       <Premium />
       <Testimonial />

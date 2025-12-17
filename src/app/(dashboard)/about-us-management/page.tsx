@@ -1,7 +1,9 @@
+import DashAboutManageViews from '@/views/dashboard/DashAboutManageViews';
+
 const page = () => {
   return (
     <>
-      <h1>About Us Information</h1>
+      <DashAboutManageViews />
     </>
   );
 };

@@ -1,0 +1,35 @@
+[
+  {
+    "title": "Premium Cattle &  Dairy From Sustainable Farming",
+    "description": "We ensure premium breed quality through scientific feeding, hygiene, and expert veterinary supervision.",
+    "buttonText": "Explore Our Cattle",
+    "buttonLink": "/cattle",
+    "status": "active",
+    "id": "1765963384037",
+    "created": "12/17/2025",
+    "order": 0,
+    "image": "/banner/1765963384034-banner.png"
+  },
+  {
+    "title": "Premium Cattle &  Dairy From Sustainable Farming",
+    "description": "We ensure premium breed quality through scientific feeding, hygiene, and expert veterinary supervision.",
+    "buttonText": "Explore Our Cattle",
+    "buttonLink": "/cattle",
+    "status": "active",
+    "id": "1765963414885",
+    "created": "12/17/2025",
+    "order": 1,
+    "image": "/banner/1765963414882-cowbg2.png"
+  },
+  {
+    "title": "Premium Cattle &  Dairy From Sustainable Farming",
+    "description": "We ensure premium breed quality through scientific feeding, hygiene, and expert veterinary supervision.",
+    "buttonText": "Explore Our Cattle",
+    "buttonLink": "/cattle",
+    "status": "active",
+    "id": "1765963456120",
+    "created": "12/17/2025",
+    "order": 2,
+    "image": "/banner/1765963456117-detailsbg.png"
+  }
+]

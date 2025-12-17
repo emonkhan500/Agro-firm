@@ -12,40 +12,11 @@ interface Product {
   image: string;
 }
 
-const Products = () => {
-  const products: Product[] = [
-    {
-      id: 1,
-      title: 'Fresh Milk',
-      image: '/products/product1.png',
-    },
-    {
-      id: 2,
-      title: 'Pure Ghee',
-      image: '/products/product2.png',
-    },
-    {
-      id: 3,
-      title: 'Grass-Fed Cottle',
-      image: '/products/product3.png',
-    },
-    {
-      id: 4,
-      title: 'Natural Butter',
-      image: '/products/product4.png',
-    },
-    {
-      id: 5,
-      title: 'Pure Ghee',
-      image: '/products/product2.png',
-    },
-    {
-      id: 6,
-      title: 'Grass-Fed Cottle',
-      image: '/products/product3.png',
-    },
-  ];
+interface Props {
+  product: Product[]; // এখানে array হিসেবে প্রপস নিবে
+}
 
+const Products = ({ product }: Props) => {
   const swiperRef = useRef<SwiperType | null>(null);
 
   return (
@@ -74,7 +45,7 @@ const Products = () => {
           }}
           className="mt-3 md:mt-5"
         >
-          {products.map((item) => (
+          {product.map((item) => (
             <SwiperSlide key={item.id}>
               <div
                 className="relative h-[302px] w-[302px] bg-cover bg-center rounded-lg transition-transform duration-300 hover:scale-105"

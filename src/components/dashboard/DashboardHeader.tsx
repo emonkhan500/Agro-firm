@@ -1,12 +1,9 @@
-
-
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import {
   ChevronDownIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/20/solid';
-
 
 const userNavigation = [
   { name: 'Your profile', href: '#' },
@@ -18,8 +15,8 @@ type DashboardHeaderProps = {
 
 const DashboardHeader = ({ setSidebarOpen }: DashboardHeaderProps) => {
   return (
-    <div className="lg:pl-72 ">
-      <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-white/10 bg-primary-bg px-4 sm:gap-x-6 sm:px-6 lg:px-8">
+    <div className="lg:pl-72 bg-primary-bg py-4 shadow-md">
+      <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-white/10  px-4  sm:gap-x-6 sm:px-6 lg:px-8">
         <button
           type="button"
           onClick={() => setSidebarOpen(true)}
@@ -33,16 +30,20 @@ const DashboardHeader = ({ setSidebarOpen }: DashboardHeaderProps) => {
         <div aria-hidden="true" className="h-6 w-px bg-white/10 lg:hidden " />
 
         <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 ">
-          <form action="#" method="GET" className="grid flex-1 grid-cols-1">
+          <form
+            action="#"
+            method="GET"
+            className="grid flex-1 grid-cols-1 my-2 "
+          >
             <input
               name="search"
               placeholder="Search"
               aria-label="Search"
-              className="col-start-1 row-start-1 block size-full bg-primary-bg pl-8 text-base text-white outline-hidden placeholder:text-gray-500 sm:text-sm/6"
+              className="col-start-1 row-start-1 block size-full border border-contact-border px-18 text-base text-sidebar-text outline-hidden placeholder:text-sidebar-text sm:text-sm/6 rounded-xl bg-sidebar-bg "
             />
             <MagnifyingGlassIcon
               aria-hidden="true"
-              className="pointer-events-none col-start-1 row-start-1 size-5 self-center text-sidebar-text"
+              className="pointer-events-none col-start-1 row-start-1 size-5 self-center text-sidebar-text ml-8"
             />
           </form>
           <div className="flex items-center gap-x-4 lg:gap-x-6">
@@ -91,7 +92,7 @@ const DashboardHeader = ({ setSidebarOpen }: DashboardHeaderProps) => {
                   <MenuItem key={item.name}>
                     <a
                       href={item.href}
-                      className="block px-3 py-1 text-sm/6 text-sidebar-text hover:text-custom-green data-focus:bg-white/5 data-focus:outline-hidden hover:bg-primary-bg"
+                      className="block px-3 py-1 text-sm/6 text-sidebar-text hover:text-custom-green data-focus:bg-white/5 data-focus:outline-hidden hover:bg-sidebar-bg"
                     >
                       {item.name}
                     </a>

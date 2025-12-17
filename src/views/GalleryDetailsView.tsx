@@ -1,12 +1,11 @@
 import GalleryDetails from '@/components/gallery/GalleryDetails';
 
-
 const GalleryDetailsView = () => {
-    return (
-        <>
-           <GalleryDetails/> 
-        </>
-    );
+  return (
+    <>
+      <GalleryDetails />
+    </>
+  );
 };
 
 export default GalleryDetailsView;

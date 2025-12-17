@@ -1,12 +1,10 @@
-import DashBannerManagement from "@/components/dashboard/banner/DashBannerManagement";
+import DashBannerManagement from '@/components/dashboard/banner/DashBannerManagement';
+import { getBanners } from '@/app/actions/banner.action';
 
+const DashboardBannerViews = async () => {
+  const banners = await getBanners();
 
-const DashboardBannerViews = () => {
-    return (
-        <>
-          <DashBannerManagement/>  
-        </>
-    );
+  return <DashBannerManagement initialBanners={banners} />;
 };
 
 export default DashboardBannerViews;

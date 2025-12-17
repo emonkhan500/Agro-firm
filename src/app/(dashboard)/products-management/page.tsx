@@ -1,7 +1,9 @@
+import DashProductsViews from '@/views/dashboard/DashProductsViews';
+
 const page = () => {
   return (
     <>
-      <h1>Products Management</h1>
+      <DashProductsViews />
     </>
   );
 };

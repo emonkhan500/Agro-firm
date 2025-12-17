@@ -1,6 +1,6 @@
 'use client';
 
-import { uploadMedia } from '@/app/actions/uploadMedia';
+import { uploadMedia } from '@/app/actions/media.actions';
 import { CloudArrowUpIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
@@ -68,7 +68,6 @@ const DashMediaModal = ({ open, onClose, onSubmit }: Props) => {
                   </p>
                   <p className="text-xs text-gray-500">PNG, JPG, JPEG, WEBP</p>
                   <p className="text-xs text-gray-500">Max size: 4MB</p>
-
                 </>
               )}
               <input

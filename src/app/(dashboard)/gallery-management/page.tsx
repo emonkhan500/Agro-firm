@@ -1,9 +1,9 @@
-import MediaLibraryViews from "@/views/dashboard/MediaLibraryViews";
+import MediaLibraryViews from '@/views/dashboard/MediaLibraryViews';
 
 const page = () => {
   return (
     <>
-      <MediaLibraryViews/>
+      <MediaLibraryViews />
     </>
   );
 };

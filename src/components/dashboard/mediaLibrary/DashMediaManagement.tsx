@@ -1,24 +1,45 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   CloudArrowUpIcon,
   MagnifyingGlassIcon,
+  TrashIcon,
 } from '@heroicons/react/24/outline';
 import DashMediaModal from './DashMediaModal';
 import Image from 'next/image';
+import { deleteMedia } from '@/app/actions/media.actions';
 
-const DashMediaManagement = () => {
+interface Props {
+  initialMedia: string[];
+}
+
+const DashMediaManagement = ({ initialMedia }: Props) => {
   const [openModal, setOpenModal] = useState(false);
-  const [media, setMedia] = useState<string[]>([]);
-  useEffect(() => {
-    fetch('/uploads/media.json')
-      .then((res) => res.json())
-      .then((data) => setMedia(data));
-  }, []);
+  const [media, setMedia] = useState<string[]>(initialMedia);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   const handleUpload = (imageUrl: string) => {
     setMedia((prev) => [imageUrl, ...prev]);
+  };
+
+  const handleDelete = async (src: string) => {
+    setDeleting(src);
+
+    // optimistic UI
+    setMedia((prev) => prev.filter((item) => item !== src));
+
+    try {
+      await deleteMedia(src);
+      alert('Deleted successfully');
+    } catch (err) {
+      console.error(err);
+      alert('Delete failed');
+      // rollback if needed
+      setMedia((prev) => [src, ...prev]);
+    } finally {
+      setDeleting(null);
+    }
   };
 
   return (
@@ -42,19 +63,25 @@ const DashMediaManagement = () => {
         </button>
       </div>
 
+      {/* Media Grid */}
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-        {media.map((src, index) => (
+        {media.map((src) => (
           <div
-            key={index}
-            className="group relative overflow-hidden rounded-lg border bg-gray-50"
+            key={src}
+            className="group relative h-96 w-full overflow-hidden rounded shadow"
           >
-            <Image
-              src={src}
-              alt="media"
-              width={300}
-              height={140}
-              className="h-[140px] w-full object-cover"
-            />
+            <Image src={src} alt="media" fill className="object-cover" />
+
+            {/* Hover Overlay */}
+            <div className="absolute inset-0 flex items-start justify-end bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <button
+                onClick={() => handleDelete(src)}
+                disabled={deleting === src}
+                className="m-3 rounded bg-custom-red p-3 text-white disabled:opacity-50"
+              >
+                <TrashIcon className="h-6 w-6" />
+              </button>
+            </div>
           </div>
         ))}
       </div>

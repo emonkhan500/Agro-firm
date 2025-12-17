@@ -29,7 +29,7 @@ const DashboardMobSidebar = () => {
   const pathname = usePathname();
 
   return (
-    <div className="relative flex grow flex-col gap-y-5 overflow-y-auto bg-primary-bg px-6 pb-4 ring ring-white/10 before:pointer-events-none before:absolute before:inset-0 before:bg-black/10">
+    <div className="relative flex grow flex-col gap-y-5 overflow-y-auto bg-primary-bg px-6 pb-4 ">
       <div className="relative flex h-16 shrink-0 items-center">
         <Image src="/logo.png" alt="Your Company" width={70} height={70} />
       </div>

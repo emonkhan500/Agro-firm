@@ -1,9 +1,9 @@
-import DashboardBannerViews from "@/views/dashboard/DashboardBannerViews";
+import DashboardBannerViews from '@/views/dashboard/DashboardBannerViews';
 
 const page = () => {
   return (
     <>
-     <DashboardBannerViews/>
+      <DashboardBannerViews />
     </>
   );
 };

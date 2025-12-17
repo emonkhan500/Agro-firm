@@ -4322,6 +4322,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sweetalert2@npm:^11.26.10":
+  version: 11.26.10
+  resolution: "sweetalert2@npm:11.26.10"
+  checksum: 10c0/3e5344045ff1ec96bc07ba5aa1b9f17b68d198bd62fc0d3290909a32ef4022c99ab1c4554927d75d1c48d371b8a2a56de1dedf009a7e124d320f9962d27f801d
+  languageName: node
+  linkType: hard
+
 "swiper@npm:^12.0.3":
   version: 12.0.3
   resolution: "swiper@npm:12.0.3"
@@ -4663,6 +4670,7 @@ __metadata:
     next: "npm:16.0.7"
     react: "npm:19.2.0"
     react-dom: "npm:19.2.0"
+    sweetalert2: "npm:^11.26.10"
     swiper: "npm:^12.0.3"
     tailwind-merge: "npm:^3.4.0"
     tailwindcss: "npm:^4"
