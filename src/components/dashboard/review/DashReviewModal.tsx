@@ -50,7 +50,7 @@ const DashReviewModal = ({ open, onClose }: Props) => {
 
       <div className="relative w-full max-w-lg rounded-lg bg-white shadow-lg">
         {/* Header */}
-        <div className="flex justify-between border-b px-6 py-4">
+        <div className="flex justify-between border-b border-border-gray px-6 py-4">
           <h2 className="text-lg font-semibold">Add New Review</h2>
           <button onClick={onClose}>
             <XMarkIcon className="h-5 w-5" />
@@ -63,14 +63,14 @@ const DashReviewModal = ({ open, onClose }: Props) => {
               name="name"
               placeholder="Customer Name"
               onChange={formik.handleChange}
-              className="w-full rounded-md border px-4 py-2"
+              className="w-full rounded-md border border-border-gray px-4 py-2"
             />
 
             <input
               name="place"
               placeholder="Place"
               onChange={formik.handleChange}
-              className="w-full rounded-md border px-4 py-2"
+              className="w-full rounded-md border border-border-gray px-4 py-2"
             />
 
             <textarea
@@ -78,10 +78,10 @@ const DashReviewModal = ({ open, onClose }: Props) => {
               placeholder="Customer Review"
               rows={3}
               onChange={formik.handleChange}
-              className="w-full rounded-md border px-4 py-2"
+              className="w-full rounded-md border border-border-gray px-4 py-2"
             />
 
-            <label className="flex h-32 cursor-pointer items-center justify-center rounded-md border-2 border-dashed">
+            <label className="flex h-32 cursor-pointer items-center justify-center rounded-md border-2 border-border-gray border-dashed">
               {preview ? (
                 <img
                   src={preview}
@@ -104,7 +104,7 @@ const DashReviewModal = ({ open, onClose }: Props) => {
             </label>
           </div>
 
-          <div className="flex justify-end border-t px-6 py-4">
+          <div className="flex justify-end border-t border-border-gray px-6 py-4">
             <button
               type="submit"
               className="rounded-md bg-active-nav px-6 py-2 text-white"

@@ -1,5 +1,5 @@
 'use client';
-
+import { Upload } from 'lucide-react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -72,7 +72,7 @@ const DashBannerModal = ({ open, onClose, onSubmit }: Props) => {
       <div onClick={onClose} className="absolute inset-0 bg-black/40" />
       <div className="relative w-full max-w-2xl rounded-lg bg-white shadow-lg">
         {/* Header */}
-        <div className="flex items-center justify-between border-b px-6 py-4">
+        <div className="flex items-center justify-between border-b border-border-gray px-6 py-4">
           <h2 className="text-lg font-semibold">Create New Banner</h2>
           <button onClick={onClose}>
             <XMarkIcon className="h-5 w-5 text-gray-500" />
@@ -91,7 +91,7 @@ const DashBannerModal = ({ open, onClose, onSubmit }: Props) => {
                 value={formik.values.title}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="w-full rounded-md border px-4 py-2 text-sm"
+                className="w-full rounded-md border border-border-gray px-4 py-2 text-sm"
               />
               {formik.touched.title && formik.errors.title && (
                 <p className="mt-1 text-xs text-custom-red">
@@ -111,7 +111,7 @@ const DashBannerModal = ({ open, onClose, onSubmit }: Props) => {
                 value={formik.values.description}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="w-full rounded-md border px-4 py-2 text-sm"
+                className="w-full rounded-md border border-border-gray px-4 py-2 text-sm"
               />
               {formik.touched.description && formik.errors.description && (
                 <p className="mt-1 text-xs text-custom-red">
@@ -130,7 +130,7 @@ const DashBannerModal = ({ open, onClose, onSubmit }: Props) => {
                 value={formik.values.buttonText}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="w-full rounded-md border px-4 py-2 text-sm"
+                className="w-full rounded-md border border-border-gray px-4 py-2 text-sm"
               />
               {formik.touched.buttonText && formik.errors.buttonText && (
                 <p className="mt-1 text-xs text-custom-red">
@@ -150,7 +150,7 @@ const DashBannerModal = ({ open, onClose, onSubmit }: Props) => {
                 value={formik.values.buttonLink}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="w-full rounded-md border px-4 py-2 text-sm"
+                className="w-full rounded-md border border-border-gray px-4 py-2 text-sm"
               />
               {formik.touched.buttonLink && formik.errors.buttonLink && (
                 <p className="mt-1 text-xs text-custom-red">
@@ -164,7 +164,7 @@ const DashBannerModal = ({ open, onClose, onSubmit }: Props) => {
               <label className="mb-2 block text-sm font-medium">
                 Banner Image <span className="text-custom-red">*</span>
               </label>
-              <label className="flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed bg-gray-50">
+              <label className="flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-border-gray bg-gray">
                 {preview ? (
                   <img
                     src={preview}
@@ -173,7 +173,7 @@ const DashBannerModal = ({ open, onClose, onSubmit }: Props) => {
                   />
                 ) : (
                   <>
-                    <span className="text-xl">⬆️</span>
+                    <Upload className='mb-4'/>
                     <p className="font-medium">
                       Click to upload or drag and drop
                     </p>
@@ -196,11 +196,11 @@ const DashBannerModal = ({ open, onClose, onSubmit }: Props) => {
           </div>
 
           {/* Footer */}
-          <div className="flex justify-end gap-3 border-t px-6 py-4">
+          <div className="flex justify-end gap-3 border-t border-border-gray px-6 py-4">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md border px-5 py-2 text-sm"
+              className="rounded-md border border-border-gray px-5 py-2 text-sm"
             >
               Cancel
             </button>

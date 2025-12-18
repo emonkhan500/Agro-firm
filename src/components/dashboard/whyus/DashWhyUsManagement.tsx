@@ -40,43 +40,60 @@ const DashWhyUsManagement = () => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-lg bg-white">
-        <div className="min-w-[700px] grid grid-cols-[80px_150px_1fr_150px] border-b px-6 py-4 font-semibold">
-          <p>Order</p>
-          <p>Image</p>
-          <p>Title</p>
-          <p>Actions</p>
-        </div>
-        {whyUsList.length === 0 && (
-          <p className="px-6 py-4 text-sm text-gray-500 text-center">
-            No data added yet.
-          </p>
-        )}
-        {whyUsList.map((item) => (
-          <div
-            key={item.id}
-            className="min-w-[700px] grid grid-cols-[80px_150px_1fr_150px] items-center border-b px-6 py-4"
-          >
-            <p>{item.order}</p>
+      <div className="overflow-x-auto rounded-lg bg-white border border-border-gray">
+        <table className="min-w-[700px] w-full border-collapse text-sm">
+          <thead>
+            <tr className="border-b border-border-gray font-semibold text-left">
+              <th className="px-6 py-4 w-[80px]">Order</th>
+              <th className="px-6 py-4 w-[150px]">Image</th>
+              <th className="px-6 py-4">Title</th>
+              <th className="px-6 py-4 w-[150px] text-center">Actions</th>
+            </tr>
+          </thead>
 
-            <img
-              src={item.image}
-              alt="why-us"
-              className="h-12 w-20 rounded object-cover"
-            />
+          <tbody>
+            {whyUsList.length === 0 && (
+              <tr>
+                <td
+                  colSpan={4}
+                  className="px-6 py-6 text-center text-sm text-sidebar-text"
+                >
+                  No data added yet.
+                </td>
+              </tr>
+            )}
 
-            <p className="font-medium">{item.title}</p>
+            {whyUsList.map((item) => (
+              <tr
+                key={item.id}
+                className="border-b border-border-gray hover:bg-gray-50 transition"
+              >
+                <td className="px-6 py-4">{item.order}</td>
 
-            <div className="flex gap-2">
-              <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg">
-                <PencilIcon className="h-4 w-4" />
-              </button>
-              <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg">
-                <TrashIcon className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-        ))}
+                <td className="px-6 py-4">
+                  <img
+                    src={item.image}
+                    alt="why-us"
+                    className="h-12 w-20 rounded object-cover"
+                  />
+                </td>
+
+                <td className="px-6 py-4 font-medium">{item.title}</td>
+
+                <td className="px-6 py-4 text-center">
+                  <div className="flex justify-center gap-2">
+                    <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg">
+                      <PencilIcon className="h-4 w-4" />
+                    </button>
+                    <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg">
+                      <TrashIcon className="h-4 w-4" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <DashWhyUsModal

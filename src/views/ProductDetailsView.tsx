@@ -1,10 +1,14 @@
-import Contact from '@/components/contact/Contact';
+import Contact from '@/components/gallery/contact/Contact';
 import ProductDetails from '@/components/product/ProductDetails';
-
-const ProductDetailsView = () => {
+interface ProductPageProps {
+  params: {
+    id: string;
+  };
+}
+const ProductDetailsView = ({ params }: { params: string }) => {
   return (
     <>
-      <ProductDetails />
+      <ProductDetails params={params} />
       <Contact />
     </>
   );

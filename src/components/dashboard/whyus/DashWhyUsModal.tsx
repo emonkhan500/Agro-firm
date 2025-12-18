@@ -58,7 +58,7 @@ const DashWhyUsModal = ({ open, onClose, onSubmit }: Props) => {
 
       <div className="relative w-full max-w-xl rounded-lg bg-white">
         {/* Header */}
-        <div className="flex items-center justify-between border-b px-6 py-4">
+        <div className="flex items-center justify-between border-b border-border-gray px-6 py-4">
           <h2 className="text-lg font-semibold">Add Why Us</h2>
           <button onClick={onClose}>
             <XMarkIcon className="h-5 w-5 text-sidebar-text" />
@@ -76,7 +76,7 @@ const DashWhyUsModal = ({ open, onClose, onSubmit }: Props) => {
                 name="title"
                 value={formik.values.title}
                 onChange={formik.handleChange}
-                className="w-full rounded-md border px-4 py-2 text-sm"
+                className="w-full rounded-md border border-border-gray px-4 py-2 text-sm"
               />
               {formik.touched.title && formik.errors.title && (
                 <p className="mt-1 text-xs text-custom-red">
@@ -91,7 +91,7 @@ const DashWhyUsModal = ({ open, onClose, onSubmit }: Props) => {
                 Image <span className="text-custom-red">*</span>
               </label>
 
-              <label className="flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed bg-gray-50">
+              <label className="flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-border-gray border-dashed bg-gray-50">
                 {preview ? (
                   <img
                     src={preview}
@@ -121,11 +121,11 @@ const DashWhyUsModal = ({ open, onClose, onSubmit }: Props) => {
           </div>
 
           {/* Footer */}
-          <div className="flex justify-end gap-3 border-t px-6 py-4">
+          <div className="flex justify-end gap-3 border-t border-border-gray px-6 py-4">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md border px-5 py-2 text-sm"
+              className="rounded-md border border-border-gray px-5 py-2 text-sm"
             >
               Cancel
             </button>

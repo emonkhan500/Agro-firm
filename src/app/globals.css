@@ -4,7 +4,8 @@
   --color-primary-text: #000000;
   --color-primary-bg: #efffdf;
   --color-sidebar-bg: #f9f9f9;
-  --color-gray: #f9fafb;
+  --color-gray: #F5F5F5;
+  --color-border-gray: #BDBDBD;
   --color-disable-gray: #e5e7eb;
   --color-sidebar-text: #111827;
   --color-custom-green: #16a34a;
@@ -37,6 +38,14 @@
 
 .animate-fadeIn {
   animation: fadeIn 1s ease-in-out forwards;
+}
+.ql-container {
+  border: none !important;
+}
+
+.ql-toolbar {
+  border: none !important;
+  border-bottom: 1px solid #e5e7eb !important;
 }
 
 @layer base {

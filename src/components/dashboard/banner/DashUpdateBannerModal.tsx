@@ -71,7 +71,7 @@ const DashUpdateBannerModal = ({
 
       <div className="relative w-full max-w-lg rounded-lg bg-white shadow-lg">
         {/* Header */}
-        <div className="flex items-center justify-between border-b px-6 py-4">
+        <div className="flex items-center justify-between border-b border-border-gray px-6 py-4">
           <h2 className="text-lg font-semibold">Update Banner</h2>
           <button onClick={onClose}>
             <XMarkIcon className="h-5 w-5" />
@@ -82,7 +82,7 @@ const DashUpdateBannerModal = ({
           <div className="space-y-5 px-6 py-6">
             {/* Image */}
             <label className="block text-sm font-medium">Banner Image</label>
-            <label className="flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed bg-gray">
+            <label className="flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-border-gray border-dashed bg-gray">
               <img
                 src={preview || banner.image}
                 className="h-full w-full rounded-md object-cover"
@@ -105,7 +105,7 @@ const DashUpdateBannerModal = ({
               name="title"
               value={formik.values.title}
               onChange={formik.handleChange}
-              className="w-full rounded-md border px-4 py-2 text-sm"
+              className="w-full rounded-md border border-border-gray px-4 py-2 text-sm"
             />
 
             {/* Description */}
@@ -114,27 +114,27 @@ const DashUpdateBannerModal = ({
               rows={3}
               value={formik.values.description}
               onChange={formik.handleChange}
-              className="w-full rounded-md border px-4 py-2 text-sm"
+              className="w-full rounded-md border border-border-gray px-4 py-2 text-sm"
             />
 
             {/* Read only fields */}
             <input
               value={banner.buttonText}
               disabled
-              className="w-full rounded-md border bg-gray px-4 py-2 text-sm"
+              className="w-full rounded-md border border-border-gray bg-gray px-4 py-2 text-sm"
             />
             <input
               value={banner.buttonLink}
               disabled
-              className="w-full rounded-md border bg-gray px-4 py-2 text-sm"
+              className="w-full rounded-md border border-border-gray bg-gray px-4 py-2 text-sm"
             />
           </div>
 
-          <div className="flex justify-end gap-3 border-t px-6 py-4">
+          <div className="flex justify-end gap-3 border-t border-border-gray px-6 py-4">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md border px-5 py-2 text-sm"
+              className="rounded-md border border-border-gray px-5 py-2 text-sm"
             >
               Cancel
             </button>

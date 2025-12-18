@@ -1,10 +1,16 @@
 
 import ProductDetailsView from '@/views/ProductDetailsView';
-
-const page = () => {
+interface ProductPageProps {
+  params: {
+    id: string;
+  };
+}
+const page =async ({ params }: ProductPageProps) => {
+    const { id } = await params;
+    console.log(id);
   return (
     <>
-      <ProductDetailsView />
+      <ProductDetailsView params={id} />
     </>
   );
 };

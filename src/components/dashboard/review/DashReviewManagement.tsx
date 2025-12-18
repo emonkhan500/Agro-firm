@@ -1,6 +1,6 @@
 'use client';
 
-import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import DashReviewModal from './DashReviewModal';
@@ -66,68 +66,84 @@ const DashReviewManagement = ({ initialReviews }: Props) => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-xl bg-white shadow-sm">
-        <div className="min-w-[900px]">
-          <div className="grid grid-cols-[80px_120px_1fr_160px_160px] border-b px-6 py-4 font-semibold">
-            <p>#</p>
-            <p>Image</p>
-            <p>Review</p>
-            <p>Created</p>
-            <p className="text-center">Actions</p>
-          </div>
+      <div className="overflow-x-auto rounded-xl bg-white shadow-sm border border-border-gray">
+        <table className="min-w-[900px] w-full border-collapse">
+          <thead>
+            <tr className="border-b border-border-gray text-left">
+              <th className="px-6 py-4">#</th>
+              <th className="px-6 py-4">Image</th>
+              <th className="px-6 py-4">Name</th>
+              <th className="px-6 py-4">Location</th>
+              <th className="px-6 py-4">Review</th>
+              <th className="px-6 py-4">Created</th>
+              <th className="px-6 py-4 text-center">Actions</th>
+            </tr>
+          </thead>
 
-          {initialReviews?.map((item, i) => (
-            <div
-              key={item.id}
-              className="grid grid-cols-[80px_120px_1fr_160px_160px] items-center border-b px-6 py-4"
-            >
-              <p>{i + 1}</p>
+          <tbody>
+            {initialReviews?.map((item, i) => (
+              <tr
+                key={item.id}
+                className="border-b border-border-gray hover:bg-gray-50"
+              >
+                <td className="px-6 py-4">{i + 1}</td>
 
-              <img
-                src={item.image}
-                className="h-12 w-12 rounded-full object-cover"
-              />
+                <td className="px-6 py-4">
+                  <img
+                    src={item.image}
+                    className="h-12 w-12 rounded-full object-cover"
+                  />
+                </td>
 
-              <div>
-                <p className="font-medium">{item.name}</p>
-                <p className="text-sm text-sidebar-text">
-                  {item.place} — {item.review}
-                </p>
-              </div>
+                <td className="px-6 py-4">
+                  <p className="font-medium">{item.name}</p>
+                </td>
 
-              <p>{item.created}</p>
+                <td className="px-6 py-4">{item.place}</td>
 
-              <div className="flex justify-center gap-2">
-                <button
-                  onClick={() => {
-                    setSelectedReview(item);
-                    setEditModal(true);
-                  }}
-                  className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center"
-                >
-                  <PencilIcon className="h-4 w-4" />
-                </button>
-                <button
-                  onClick={() => handleDelete(item.id)}
-                  className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center"
-                >
-                  <TrashIcon className="h-4 w-4 text-custom-red" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+                <td className="px-6 py-4 text-sm text-sidebar-text max-w-[200px] md:max-w-[300px] truncate">
+                  {item.review}
+                </td>
+
+                <td className="px-6 py-4">{item.created}</td>
+
+                <td className="px-6 py-4">
+                  <div className="flex justify-center gap-2">
+                    <button
+                      onClick={() => {
+                        setSelectedReview(item);
+                        setEditModal(true);
+                      }}
+                      className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </button>
+
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center"
+                    >
+                      <Trash2 className="h-4 w-4 text-custom-red" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <DashReviewModal open={openModal} onClose={() => setOpenModal(false)} />
-      <DashUpdateReviewModal
-        open={editModal}
-        reviewData={selectedReview}
-        onClose={() => {
-          setEditModal(false);
-          setSelectedReview(null);
-        }}
-      />
+      {editModal && selectedReview && (
+        <DashUpdateReviewModal
+          open={editModal}
+          reviewData={selectedReview}
+          onClose={() => {
+            setEditModal(false);
+            setSelectedReview(null);
+          }}
+        />
+      )}
     </section>
   );
 };

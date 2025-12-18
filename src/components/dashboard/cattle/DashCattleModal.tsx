@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { createCattle } from '@/app/actions/cattle.action';
+import { Upload } from 'lucide-react';
 
 export interface CattlePayload {
   title: string;
@@ -57,7 +58,7 @@ const DashCattleModal = ({ open, onClose }: Props) => {
 
       <div className="relative w-full max-w-lg rounded-lg bg-white shadow-lg">
         {/* Header */}
-        <div className="flex items-center justify-between border-b px-6 py-4">
+        <div className="flex items-center justify-between border-b border-border-gray px-6 py-4">
           <h2 className="text-lg font-semibold">Add New Cattle</h2>
           <button onClick={onClose}>
             <XMarkIcon className="h-5 w-5" />
@@ -76,7 +77,7 @@ const DashCattleModal = ({ open, onClose }: Props) => {
                 value={formik.values.title}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="w-full rounded-md border px-4 py-2 text-sm"
+                className="w-full rounded-md border border-border-gray px-4 py-2 text-sm"
               />
               {formik.touched.title && formik.errors.title && (
                 <p className="mt-1 text-xs text-custom-red">
@@ -90,7 +91,7 @@ const DashCattleModal = ({ open, onClose }: Props) => {
               <label className="mb-2 block text-sm font-medium">
                 Cattle Image *
               </label>
-              <label className="flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed bg-gray-50">
+              <label className="flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-border-gray border-dashed bg-gray-50">
                 {preview ? (
                   <img
                     src={preview}
@@ -99,9 +100,9 @@ const DashCattleModal = ({ open, onClose }: Props) => {
                   />
                 ) : (
                   <>
-                    <span className="text-xl">⬆️</span>
+                    <Upload className='mb-4'/>
                     <p className="font-medium">Click to upload cattle image</p>
-                    <p className="text-xs text-gray-500">PNG / JPG / JPEG</p>
+                    <p className="text-xs text-sidebar-text">PNG / JPG / JPEG</p>
                   </>
                 )}
                 <input
@@ -120,11 +121,11 @@ const DashCattleModal = ({ open, onClose }: Props) => {
           </div>
 
           {/* Footer */}
-          <div className="flex justify-end gap-3 border-t px-6 py-4">
+          <div className="flex justify-end gap-3 border-t border-border-gray px-6 py-4">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md border px-5 py-2 text-sm"
+              className="rounded-md border border-border-gray px-5 py-2 text-sm"
             >
               Cancel
             </button>

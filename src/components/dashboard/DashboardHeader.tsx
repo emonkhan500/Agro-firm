@@ -15,7 +15,7 @@ type DashboardHeaderProps = {
 
 const DashboardHeader = ({ setSidebarOpen }: DashboardHeaderProps) => {
   return (
-    <div className="lg:pl-72 bg-primary-bg py-4 shadow-md">
+    <div className="lg:pl-72 bg-primary-bg py-4 shadow-2xs">
       <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-white/10  px-4  sm:gap-x-6 sm:px-6 lg:px-8">
         <button
           type="button"
@@ -29,17 +29,17 @@ const DashboardHeader = ({ setSidebarOpen }: DashboardHeaderProps) => {
         {/* Separator */}
         <div aria-hidden="true" className="h-6 w-px bg-white/10 lg:hidden " />
 
-        <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 ">
+        <div className="flex flex-1 justify-between self-stretch lg:gap-x-6 ">
           <form
             action="#"
             method="GET"
-            className="grid flex-1 grid-cols-1 my-2 "
+            className="grid flex-1 min-w-0 my-2 max-w-xl "
           >
             <input
               name="search"
               placeholder="Search"
               aria-label="Search"
-              className="col-start-1 row-start-1 block size-full border border-contact-border px-18 text-base text-sidebar-text outline-hidden placeholder:text-sidebar-text sm:text-sm/6 rounded-xl bg-sidebar-bg "
+              className="col-start-1 row-start-1 block size-full border border-border-gray px-18 text-base text-sidebar-text outline-hidden placeholder:text-sidebar-text sm:text-sm/6 rounded-xl bg-sidebar-bg "
             />
             <MagnifyingGlassIcon
               aria-hidden="true"

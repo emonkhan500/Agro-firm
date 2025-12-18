@@ -1,4 +1,4 @@
-import Contact from '@/components/contact/Contact';
+import Contact from '@/components/gallery/contact/Contact';
 import CattleDetails from '@/components/outcattle/CattleDetails';
 
 const CattleDetailsView = () => {

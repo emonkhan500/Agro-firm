@@ -3,6 +3,7 @@
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import DashProductModal from './DashProductModal';
+import DashProductUpdateModal from './DashProductUpdateModal';
 import { deleteProduct } from '@/app/actions/products.action';
 import Swal from 'sweetalert2';
 
@@ -11,6 +12,7 @@ interface Product {
   title: string;
   image: string;
   created: string;
+  description?: string;
 }
 
 interface Props {
@@ -18,7 +20,15 @@ interface Props {
 }
 
 const DashProductsManagement = ({ initialProducts }: Props) => {
-  const [openModal, setOpenModal] = useState(false);
+  console.log(initialProducts);
+  const [openCreateModal, setOpenCreateModal] = useState(false);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const handleEditProduct = (product: Product) => {
+    setSelectedProduct(product);
+    setOpenUpdateModal(true);
+  };
 
   const handleDeleteProduct = async (id: number) => {
     const result = await Swal.fire({
@@ -35,19 +45,13 @@ const DashProductsManagement = ({ initialProducts }: Props) => {
 
     const deleted = await deleteProduct(id);
 
-    if (deleted) {
-      await Swal.fire({
-        title: 'Deleted!',
-        text: 'Product has been deleted successfully.',
-        icon: 'success',
-      });
-    } else {
-      await Swal.fire({
-        title: 'Error!',
-        text: 'Failed to delete product.',
-        icon: 'error',
-      });
-    }
+    await Swal.fire({
+      title: deleted ? 'Deleted!' : 'Error!',
+      text: deleted
+        ? 'Product has been deleted successfully.'
+        : 'Failed to delete product.',
+      icon: deleted ? 'success' : 'error',
+    });
   };
 
   return (
@@ -56,7 +60,7 @@ const DashProductsManagement = ({ initialProducts }: Props) => {
       <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold">Product Management</h1>
-          <p className="mt-1 text-sm text-gray-600">
+          <p className="mt-1 text-sm text-sidebar-text">
             You are managing a total of{' '}
             <span className="font-semibold">{initialProducts.length}</span>{' '}
             products
@@ -64,7 +68,7 @@ const DashProductsManagement = ({ initialProducts }: Props) => {
         </div>
 
         <button
-          onClick={() => setOpenModal(true)}
+          onClick={() => setOpenCreateModal(true)}
           className="h-12 rounded-md bg-active-nav px-6 text-sm font-medium text-white"
         >
           + Add New Product
@@ -72,55 +76,70 @@ const DashProductsManagement = ({ initialProducts }: Props) => {
       </div>
 
       {/* Table */}
-      <div className="relative overflow-x-auto rounded-xl bg-white shadow-sm">
-        <div className="min-w-[900px]">
-          <div className="grid grid-cols-[80px_140px_1.5fr_160px_160px] border-b bg-gray-50 px-6 py-4 text-sm font-semibold">
-            <p>#</p>
-            <p>Image</p>
-            <p>Product Name</p>
-            <p>Created</p>
-            <p className="text-center">Actions</p>
-          </div>
+      <div className="relative overflow-x-auto rounded-xl bg-white shadow-sm border border-border-gray">
+        <table className="min-w-[900px] w-full text-sm">
+          <thead>
+            <tr className="border-b border-border-gray bg-gray font-semibold">
+              <th className="px-6 py-4 w-[80px]">#</th>
+              <th className="px-6 py-4 w-[140px]">Image</th>
+              <th className="px-6 py-4">Product Name</th>
+              <th className="px-6 py-4 w-[160px]">Created</th>
+              <th className="px-6 py-4 w-[160px] text-center">Actions</th>
+            </tr>
+          </thead>
 
-          {initialProducts.length > 0 ? (
-            initialProducts.map((item, index) => (
-              <div
-                key={item.id}
-                className="grid grid-cols-[80px_140px_1.5fr_160px_160px] items-center border-b px-6 py-4 text-sm "
-              >
-                <p>{index + 1}</p>
+          <tbody>
+            {initialProducts.map((item, index) => (
+              <tr key={item.id} className="border-b border-border-gray hover:bg-gray">
+                <td className="px-6 py-4">{index + 1}</td>
 
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="h-14 w-24 rounded-md object-cover "
-                />
+                <td className="px-6 py-4">
+                  <img
+                    src={item.image}
+                    className="h-14 w-24 rounded-md object-cover"
+                  />
+                </td>
 
-                <p className="font-medium">{item.title}</p>
-                <p className="text-gray-500">{item.created}</p>
-                <div className="flex justify-center gap-2">
-                  <button className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center">
-                    <PencilIcon className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={() => handleDeleteProduct(item.id)}
-                    className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center"
-                  >
-                    <TrashIcon className="h-4 w-4 text-custom-red" />
-                  </button>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="px-6 py-10 text-center text-sm text-gray-500">
-              No products found
-            </div>
-          )}
-        </div>
+                <td className="px-6 py-4 font-medium">{item.title}</td>
+                <td className="px-6 py-4">{item.created}</td>
+
+                <td className="px-6 py-4">
+                  <div className="flex justify-center gap-2">
+                    <button
+                      onClick={() => handleEditProduct(item)}
+                      className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center"
+                    >
+                      <PencilIcon className="h-4 w-4" />
+                    </button>
+
+                    <button
+                      onClick={() => handleDeleteProduct(item.id)}
+                      className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center"
+                    >
+                      <TrashIcon className="h-4 w-4 text-custom-red" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      {/* Modal */}
-      <DashProductModal open={openModal} onClose={() => setOpenModal(false)} />
+      {/* Modals */}
+      <DashProductModal
+        open={openCreateModal}
+        onClose={() => setOpenCreateModal(false)}
+      />
+
+      <DashProductUpdateModal
+        open={openUpdateModal}
+        product={selectedProduct}
+        onClose={() => {
+          setOpenUpdateModal(false);
+          setSelectedProduct(null);
+        }}
+      />
     </section>
   );
 };

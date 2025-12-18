@@ -62,35 +62,56 @@ const DashCattleManagement = ({ initialCattles }: Props) => {
       </div>
 
       {/* table */}
-      <div className="overflow-x-auto rounded-xl bg-white shadow-sm">
-        <div className="min-w-[900px]">
-            <div className="grid grid-cols-[80px_140px_1.5fr_160px_160px] border-b bg-gray-50 px-6 py-4 text-sm font-semibold">
-            <p>#</p>
-            <p>Image</p>
-            <p>Product Name</p>
-            <p>Created</p>
-            <p className="text-center">Actions</p>
-          </div>
-          {initialCattles.map((item, i) => (
-            <div key={item.id} className="grid grid-cols-[80px_140px_1.5fr_160px_160px] px-6 py-4">
-              <p>{i + 1}</p>
-              <img src={item.image} className="h-14 w-24 rounded-md object-cover" />
-              <p>{item.title}</p>
-              <p>{item.created}</p>
-                <div className="flex justify-center gap-2">
-                  <button className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center">
-                    <PencilIcon className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={() => handleDeleteCattle(item.id)}
-                    className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center"
-                  >
-                    <TrashIcon className="h-4 w-4 text-custom-red" />
-                  </button>
-                </div>
-            </div>
-          ))}
-        </div>
+      <div className="overflow-x-auto rounded-xl bg-white shadow-sm border border-border-gray">
+        <table className="min-w-[900px] w-full border-collapse text-sm">
+          <thead>
+            <tr className="border-b border-border-gray bg-gray font-semibold text-left">
+              <th className="px-6 py-4 w-[80px]">#</th>
+              <th className="px-6 py-4 w-[140px]">Image</th>
+              <th className="px-6 py-4">Product Name</th>
+              <th className="px-6 py-4 w-[160px]">Created</th>
+              <th className="px-6 py-4 w-[160px] text-center">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {initialCattles.map((item, i) => (
+              <tr
+                key={item.id}
+                className="border-b border-border-gray hover:bg-gray-50 transition"
+              >
+                <td className="px-6 py-4">{i + 1}</td>
+
+                <td className="px-6 py-4">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="h-14 w-24 rounded-md object-cover"
+                  />
+                </td>
+
+                <td className="px-6 py-4 font-medium">{item.title}</td>
+
+                <td className="px-6 py-4">{item.created}</td>
+
+                <td className="px-6 py-4">
+                  <div className="flex justify-center gap-2">
+                    <button className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center">
+                      <PencilIcon className="h-4 w-4" />
+                    </button>
+
+                    <button
+                      onClick={() => handleDeleteCattle(item.id)}
+                      className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center"
+                    >
+                      <TrashIcon className="h-4 w-4 text-custom-red" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <DashCattleModal open={openModal} onClose={() => setOpenModal(false)} />

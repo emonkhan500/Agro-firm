@@ -65,7 +65,7 @@ export default function DashboardLayout({
         <DashboardHeader setSidebarOpen={setSidebarOpen} />
 
         <div className=''>
-          <main className="pl-4 lg:pl-80 ">{children}</main>
+          <main className="px-4 lg:pl-80 ">{children}</main>
         </div>
       </div>
     </>

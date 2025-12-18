@@ -104,80 +104,90 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
       </div>
 
       {/* Table */}
-      <div className="relative overflow-x-auto rounded-xl bg-white shadow-sm">
-        <div className="min-w-[1100px] whitespace-nowrap">
-          {/* Table Header */}
-          <div className="grid grid-cols-[80px_140px_1.5fr_2fr_120px_160px_140px] border-b bg-gray px-6 py-4 text-sm font-semibold text-sidebar-text">
-            <p>Order</p>
-            <p>Banner</p>
-            <p>Title</p>
-            <p>Description</p>
-            <p>Status</p>
-            <p>Created</p>
-            <p className="text-center">Actions</p>
-          </div>
+      <div className="relative overflow-x-auto rounded-xl bg-white shadow-sm border border-border-gray">
+        <table className="min-w-[1100px] w-full border-collapse text-sm">
+          <thead>
+            <tr className="border-b border-border-gray text-sidebar-text font-semibold">
+              <th className="px-6 py-4 w-[80px] text-left">Order</th>
+              <th className="px-6 py-4 w-[140px] text-left">Banner</th>
+              <th className="px-6 py-4 text-left">Title</th>
+              <th className="px-6 py-4 text-left">Description</th>
+              <th className="px-6 py-4 w-[120px] text-left">Status</th>
+              <th className="px-6 py-4 w-[160px] text-left">Created</th>
+              <th className="px-6 py-4 w-[140px] text-center">Actions</th>
+            </tr>
+          </thead>
 
-          {/* Empty */}
-          {banners.length === 0 && (
-            <div className="px-6 py-10 text-center text-sm text-sidebar-text">
-              No banners created yet
-            </div>
-          )}
-
-          {/* Rows */}
-          {banners.map((banner) => (
-            <div
-              key={banner.id}
-              className="grid grid-cols-[80px_140px_1.5fr_2fr_120px_160px_140px] items-center border-b px-6 py-4 text-sm transition "
-            >
-              <p className="font-medium">{banner.order + 1}</p>
-
-              <div className="h-14 w-24 overflow-hidden rounded-md ">
-                <img
-                  src={banner.image}
-                  alt="banner"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-
-              <p className="font-medium text-sidebar-text">
-                {banner.title.split(' ').slice(0, 3).join(' ')}...
-              </p>
-
-              <p className="line-clamp-2 text-sidebar-text">
-                <span className="lg:hidden">
-                  {banner.description.split(' ').slice(0, 4).join(' ')}...
-                </span>
-
-                <span className="hidden lg:inline">
-                  {banner.description.split(' ').slice(0, 5).join(' ')}...
-                </span>
-              </p>
-
-              <span className="w-fit rounded-full bg-active-nav px-3 py-1 text-xs font-medium text-white">
-                {banner.status}
-              </span>
-
-              <p className="text-sidebar-text">{banner.created}</p>
-
-              <div className="flex justify-center gap-2">
-                <button
-                  onClick={() => setEditBanner(banner)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg"
+          <tbody>
+            {banners.length === 0 && (
+              <tr>
+                <td
+                  colSpan={7}
+                  className="px-6 py-10 text-center text-sm text-sidebar-text"
                 >
-                  <PencilIcon className="h-4 w-4" />
-                </button>
+                  No banners created yet
+                </td>
+              </tr>
+            )}
 
-                <button
-                  onClick={() => handleDeleteBanner(banner.id)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg transition "
-                >
-                  <TrashIcon className="h-4 w-4 text-custom-red" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+            {banners.map((banner) => (
+              <tr
+                key={banner.id}
+                className="border-b border-border-gray hover:bg-gray-50 transition"
+              >
+                <td className="px-6 py-4 font-medium">{banner.order + 1}</td>
+
+                <td className="px-6 py-4">
+                  <div className="h-14 w-24 overflow-hidden rounded-md">
+                    <img
+                      src={banner.image}
+                      alt="banner"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                </td>
+
+                <td className="px-6 py-4 font-medium text-sidebar-text max-w-[180px] truncate">
+                  {banner.title}
+                </td>
+
+                <td className="px-6 py-4 max-w-[260px]">
+                  <p className="line-clamp-2 text-sidebar-text">
+                    {banner.description}
+                  </p>
+                </td>
+
+                <td className="px-6 py-4">
+                  <span className="w-fit rounded-full bg-active-nav px-3 py-1 text-xs font-medium text-white">
+                    {banner.status}
+                  </span>
+                </td>
+
+                <td className="px-6 py-4 text-sidebar-text">
+                  {banner.created}
+                </td>
+
+                <td className="px-6 py-4">
+                  <div className="flex justify-center gap-2">
+                    <button
+                      onClick={() => setEditBanner(banner)}
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg"
+                    >
+                      <PencilIcon className="h-4 w-4" />
+                    </button>
+
+                    <button
+                      onClick={() => handleDeleteBanner(banner.id)}
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg transition"
+                    >
+                      <TrashIcon className="h-4 w-4 text-custom-red" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* Modal */}

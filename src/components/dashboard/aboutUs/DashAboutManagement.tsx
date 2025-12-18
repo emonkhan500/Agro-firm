@@ -19,7 +19,7 @@ const DashAboutManagement = () => {
       <div className="my-20 flex items-center justify-between ">
         <div>
           <h1 className="text-2xl font-semibold">About Us Management</h1>
-          <p className="mt-1 text-sm text-gray-600">
+          <p className="mt-1 text-sm text-sidebar-text">
             Manage your About us content
           </p>
         </div>
@@ -33,39 +33,57 @@ const DashAboutManagement = () => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-lg bg-white">
-        <div className="min-w-[900px] grid grid-cols-[80px_1fr_2fr_150px] border-b px-6 py-4 font-semibold">
-          <p>SL</p>
-          <p>Heading</p>
-          <p>Description</p>
-          <p>Actions</p>
-        </div>
+      <div className="overflow-x-auto rounded-lg bg-white border border-border-gray">
+        <table className="min-w-[900px] w-full border-collapse">
+          <thead>
+            <tr className="border-b border-border-gray text-left font-semibold">
+              <th className="px-6 py-4 w-[80px]">SL</th>
+              <th className="px-6 py-4">Heading</th>
+              <th className="px-6 py-4">Description</th>
+              <th className="px-6 py-4 w-[150px]">Actions</th>
+            </tr>
+          </thead>
 
-        {aboutUsList.length === 0 && (
-          <p className="px-6 py-4 text-sm text-gray-500 text-center">
-            No data added yet.
-          </p>
-        )}
+          <tbody>
+            {aboutUsList.length === 0 && (
+              <tr>
+                <td
+                  colSpan={4}
+                  className="px-6 py-6 text-center text-sm text-sidebar-text"
+                >
+                  No data added yet.
+                </td>
+              </tr>
+            )}
 
-        {aboutUsList.map((item, index) => (
-          <div
-            key={item.id}
-            className="min-w-[900px] grid grid-cols-[80px_1fr_2fr_150px] items-center border-b px-6 py-4"
-          >
-            <p>{index + 1}</p>
-            <p className="font-medium">{item.heading}</p>
-            <p className="text-sm text-gray-600">{item.description}</p>
+            {aboutUsList.map((item, index) => (
+              <tr
+                key={item.id}
+                className="border-b border-border-gray hover:bg-gray-50"
+              >
+                <td className="px-6 py-4">{index + 1}</td>
 
-            <div className="flex gap-2">
-              <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg">
-                <PencilIcon className="h-4 w-4" />
-              </button>
-              <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg">
-                <TrashIcon className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-        ))}
+                <td className="px-6 py-4 font-medium">{item.heading}</td>
+
+                <td className="px-6 py-4 text-sm text-sidebar-text">
+                  {item.description}
+                </td>
+
+                <td className="px-6 py-4">
+                  <div className="flex gap-2">
+                    <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg">
+                      <PencilIcon className="h-4 w-4" />
+                    </button>
+
+                    <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg">
+                      <TrashIcon className="h-4 w-4" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* Modal */}

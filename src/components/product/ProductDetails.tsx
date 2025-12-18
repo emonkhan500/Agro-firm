@@ -1,7 +1,10 @@
+import { getProducts } from '@/app/actions/products.action';
 import Image from 'next/image';
-import React from 'react';
 
-const ProductDetails = () => {
+
+const ProductDetails =async ({params}:{params:string}) => {
+  const products = await getProducts();
+   console.log(params,products);
   return (
     <section>
       <div className="wraper wraper px-5 md:px-10 xl:px-20 ">
