@@ -1,38 +1,10 @@
+import { getProducts } from "@/app/actions/products.action";
+
 import Link from "next/link";
 
-const Product = () => {
-  const products = [
-    {
-      id: 1,
-      title: 'Fresh Milk',
-      image: '/products/product1.png',
-    },
-    {
-      id: 2,
-      title: 'Pure Ghee',
-      image: '/products/product2.png',
-    },
-    {
-      id: 3,
-      title: 'Grass-Fed Cottle',
-      image: '/products/product3.png',
-    },
-    {
-      id: 4,
-      title: 'Natural Butter',
-      image: '/products/product4.png',
-    },
-    {
-      id: 5,
-      title: 'Pure Ghee',
-      image: '/products/product2.png',
-    },
-    {
-      id: 6,
-      title: 'Grass-Fed Cottle',
-      image: '/products/product3.png',
-    },
-  ];
+const Product =async () => {
+  const products=await getProducts();
+  
   return (
     <section className="mt-10 md:mt-25 mb-0 md:mb-0 ">
       <div className="wraper relative px-5 lg:px-10 xl:px-20 2xl:px-20">

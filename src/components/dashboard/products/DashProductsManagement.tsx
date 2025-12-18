@@ -86,27 +86,27 @@ const DashProductsManagement = ({ initialProducts }: Props) => {
             initialProducts.map((item, index) => (
               <div
                 key={item.id}
-                className="grid grid-cols-[80px_140px_1.5fr_160px_160px] items-center border-b px-6 py-4 text-sm hover:bg-gray-50"
+                className="grid grid-cols-[80px_140px_1.5fr_160px_160px] items-center border-b px-6 py-4 text-sm "
               >
                 <p>{index + 1}</p>
 
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="h-14 w-24 rounded-md object-cover bg-gray-200"
+                  className="h-14 w-24 rounded-md object-cover "
                 />
 
                 <p className="font-medium">{item.title}</p>
                 <p className="text-gray-500">{item.created}</p>
                 <div className="flex justify-center gap-2">
-                  <button className="h-9 w-9 rounded-full bg-gray-100 flex items-center justify-center">
+                  <button className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center">
                     <PencilIcon className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => handleDeleteProduct(item.id)}
-                    className="h-9 w-9 rounded-full bg-gray-100 flex items-center justify-center"
+                    className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center"
                   >
-                    <TrashIcon className="h-4 w-4 text-red-500" />
+                    <TrashIcon className="h-4 w-4 text-custom-red" />
                   </button>
                 </div>
               </div>

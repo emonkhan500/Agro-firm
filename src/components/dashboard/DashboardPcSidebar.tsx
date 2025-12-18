@@ -48,6 +48,11 @@ const DashboardPcSidebar = () => {
       href: '/cattle-management',
       icon: ChartPieIcon,
     },
+    {
+      name: 'Review Management',
+      href: '/review-management',
+      icon: ChartPieIcon,
+    },
   ];
 
   const teams = [

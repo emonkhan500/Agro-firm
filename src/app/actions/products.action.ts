@@ -3,7 +3,7 @@
 import fs from "fs";
 import path from "path";
 import { revalidatePath } from "next/cache";
-import { ProductPayload } from "@/components/dashboard/products/DashProductModal";
+
 
 export interface Product {
   id: number;

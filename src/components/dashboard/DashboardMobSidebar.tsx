@@ -23,6 +23,7 @@ const navigation = [
   { name: 'Gallery Management', href: '/gallery-management', icon: ChartPieIcon },
   { name: 'Contact Information', href: '/contact-information', icon: ChartPieIcon },
   { name: 'Cattle Management', href: '/cattle-management', icon: ChartPieIcon },
+  { name: 'Review Management', href: '/review-management', icon: ChartPieIcon },
 ];
 
 const DashboardMobSidebar = () => {

@@ -6,26 +6,18 @@ import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import { useRef } from 'react';
 import Image from 'next/image';
+export interface Review {
+  id: number;
+  name: string;
+  place: string;
+  image: string;
+  review: string;
+  created: string;
+}
 
-const Testimonial = () => {
-  const swiperRef = useRef<SwiperType | null>(null); // ✅ FIX 1
-
-  const testimonial = [
-    {
-      image: '/user1.png',
-      message:
-        'Trusted by families who choose freshness, purity, and reliability, see how our products make a real difference. Honest feedback from customers who rely on our farm every day.',
-      name: 'John Sina',
-      location: 'New York, USA',
-    },
-    {
-      image: '/user2.png',
-      message:
-        'The quality of their cattle and dairy products is unmatched. You can truly feel the freshness in every product. A reliable farm we trust completely.',
-      name: 'Sarah Williams',
-      location: 'Texas, USA',
-    },
-  ];
+const Testimonial = ({ reviews }: { reviews: Review[] }) => {
+  console.log(reviews);
+  const swiperRef = useRef<SwiperType | null>(null);
 
   return (
     <section className="mt-10 md:mt-25">
@@ -49,7 +41,7 @@ const Testimonial = () => {
           loop={true}
           className="mt-3 md:mt-5"
         >
-          {testimonial.map((item, index) => (
+          {reviews.map((item, index) => (
             <SwiperSlide key={index}>
               <div className="flex flex-col md:flex-row gap-2.5 md:gap-5.5 bg-primary-bg px-10 xl:px-[142px] pt-9 md:pt-9 pb-4 md:pb-9 items-center">
                 <div className="w-[200px] h-[200px]">
@@ -64,13 +56,13 @@ const Testimonial = () => {
 
                 <div className="w-full xl:max-w-[772px] flex flex-col-reverse md:flex-col justify-center items-center md:items-start">
                   <p className="text-[18px] md:text-[24px] font-medium leading-[125%] mb-5 text-center md:text-left">
-                    {item.message}
+                    {item.review}
                   </p>
                   <p className="hidden md:block text-[18px] font-medium leading-[122%] mb-[10px]">
                     {item.name}
                   </p>
                   <p className="text-[16px] font-normal leading-[122%] mb-[10px] md:mb-0">
-                    {item.location}
+                    {item.place}
                   </p>
                   <p className=" md:hidden text-[18px] font-medium leading-[122%] mb-[10px]">
                     {item.name}

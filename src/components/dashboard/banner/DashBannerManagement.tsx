@@ -5,6 +5,7 @@ import DashBannerModal, { BannerPayload } from './DashBannerModal';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { createBanner, deleteBanner } from '@/app/actions/banner.action';
 import Swal from 'sweetalert2';
+import DashUpdateBannerModal from './DashUpdateBannerModal';
 
 // Server payload type (no imageFile)
 type CreateBannerPayload = {
@@ -30,6 +31,7 @@ interface Props {
 const DashBannerManagement = ({ initialBanners }: Props) => {
   const [openModal, setOpenModal] = useState(false);
   const [banners, setBanners] = useState<Banner[]>(initialBanners);
+  const [editBanner, setEditBanner] = useState<Banner | null>(null);
 
   // Create banner
   const handleAddBanner = async (banner: BannerPayload) => {
@@ -105,7 +107,7 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
       <div className="relative overflow-x-auto rounded-xl bg-white shadow-sm">
         <div className="min-w-[1100px] whitespace-nowrap">
           {/* Table Header */}
-          <div className="grid grid-cols-[80px_140px_1.5fr_2fr_120px_160px_140px] border-b bg-gray-50 px-6 py-4 text-sm font-semibold text-gray-700">
+          <div className="grid grid-cols-[80px_140px_1.5fr_2fr_120px_160px_140px] border-b bg-gray px-6 py-4 text-sm font-semibold text-sidebar-text">
             <p>Order</p>
             <p>Banner</p>
             <p>Title</p>
@@ -117,7 +119,7 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
 
           {/* Empty */}
           {banners.length === 0 && (
-            <div className="px-6 py-10 text-center text-sm text-gray-500">
+            <div className="px-6 py-10 text-center text-sm text-sidebar-text">
               No banners created yet
             </div>
           )}
@@ -126,11 +128,11 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
           {banners.map((banner) => (
             <div
               key={banner.id}
-              className="grid grid-cols-[80px_140px_1.5fr_2fr_120px_160px_140px] items-center border-b px-6 py-4 text-sm transition hover:bg-gray-50"
+              className="grid grid-cols-[80px_140px_1.5fr_2fr_120px_160px_140px] items-center border-b px-6 py-4 text-sm transition "
             >
               <p className="font-medium">{banner.order + 1}</p>
 
-              <div className="h-14 w-24 overflow-hidden rounded-md bg-gray-200">
+              <div className="h-14 w-24 overflow-hidden rounded-md ">
                 <img
                   src={banner.image}
                   alt="banner"
@@ -138,26 +140,39 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
                 />
               </div>
 
-              <p className="font-medium text-gray-800">{banner.title}</p>
+              <p className="font-medium text-sidebar-text">
+                {banner.title.split(' ').slice(0, 3).join(' ')}...
+              </p>
 
-              <p className="line-clamp-2 text-gray-600">{banner.description}</p>
+              <p className="line-clamp-2 text-sidebar-text">
+                <span className="lg:hidden">
+                  {banner.description.split(' ').slice(0, 4).join(' ')}...
+                </span>
+
+                <span className="hidden lg:inline">
+                  {banner.description.split(' ').slice(0, 5).join(' ')}...
+                </span>
+              </p>
 
               <span className="w-fit rounded-full bg-active-nav px-3 py-1 text-xs font-medium text-white">
                 {banner.status}
               </span>
 
-              <p className="text-gray-500">{banner.created}</p>
+              <p className="text-sidebar-text">{banner.created}</p>
 
               <div className="flex justify-center gap-2">
-                <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg transition hover:bg-gray-200">
+                <button
+                  onClick={() => setEditBanner(banner)}
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg"
+                >
                   <PencilIcon className="h-4 w-4" />
                 </button>
 
                 <button
                   onClick={() => handleDeleteBanner(banner.id)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg transition hover:bg-red-100"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg transition "
                 >
-                  <TrashIcon className="h-4 w-4 text-red-500" />
+                  <TrashIcon className="h-4 w-4 text-custom-red" />
                 </button>
               </div>
             </div>
@@ -170,6 +185,16 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
         open={openModal}
         onClose={() => setOpenModal(false)}
         onSubmit={handleAddBanner}
+      />
+      <DashUpdateBannerModal
+        open={!!editBanner}
+        banner={editBanner}
+        onClose={() => setEditBanner(null)}
+        onUpdated={(updated) =>
+          setBanners((prev) =>
+            prev.map((b) => (b.id === updated.id ? updated : b))
+          )
+        }
       />
     </section>
   );

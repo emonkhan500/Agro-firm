@@ -105,3 +105,47 @@ export async function deleteBanner(id: string): Promise<Banner | null> {
 
   return deleted;
 }
+/* -------------------- UPDATE -------------------- */
+export async function updateBanner(
+  id: string,
+  formData: FormData,
+  payload: {
+    title: string;
+    description: string;
+  }
+): Promise<Banner | null> {
+  await ensureDir();
+
+  const banners = await readJSON();
+  const index = banners.findIndex(b => b.id === id);
+  if (index === -1) return null;
+
+  let image = banners[index].image;
+
+  const file = formData.get('file') as File | null;
+
+  if (file) {
+    // delete old image
+    const oldPath = path.join(process.cwd(), 'public', image);
+    await fs.unlink(oldPath).catch(() => {});
+
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const fileName = `${Date.now()}-${file.name}`;
+    await fs.writeFile(path.join(BANNER_DIR, fileName), buffer);
+    image = `/banner/${fileName}`;
+  }
+
+  banners[index] = {
+    ...banners[index],
+    title: payload.title,
+    description: payload.description,
+    image,
+  };
+
+  await writeJSON(banners);
+
+  revalidatePath('/dashboard/banner-management');
+  revalidatePath('/');
+
+  return banners[index];
+}

@@ -23,7 +23,7 @@ export default function DashboardLayout({
 
   return (
     <>
-      <div>
+      <div className="bg-gray h-screen">
         <Dialog
           open={sidebarOpen}
           onClose={setSidebarOpen}
@@ -64,7 +64,9 @@ export default function DashboardLayout({
 
         <DashboardHeader setSidebarOpen={setSidebarOpen} />
 
-        <main className="pl-4 lg:pl-80">{children}</main>
+        <div className=''>
+          <main className="pl-4 lg:pl-80 ">{children}</main>
+        </div>
       </div>
     </>
   );

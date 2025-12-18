@@ -1,5 +1,6 @@
 import { getBanners } from '@/app/actions/banner.action';
 import { getProducts } from '@/app/actions/products.action';
+import { getReviews } from '@/app/actions/review.actions';
 import AboutUs from '@/components/home/AboutUs';
 import Banner from '@/components/home/Banner';
 import Contact from '@/components/home/Contact';
@@ -12,6 +13,7 @@ import WhyUs from '@/components/home/WhyUs';
 const HomeView = async () => {
   const banners = await getBanners();
   const product = await getProducts();
+  const reviews= await getReviews();
   return (
     <>
       <Banner banners={banners} />
@@ -20,7 +22,7 @@ const HomeView = async () => {
       <Products product={product} />
       <Gallary />
       <Premium />
-      <Testimonial />
+      <Testimonial reviews={reviews}/>
       <Contact />
     </>
   );

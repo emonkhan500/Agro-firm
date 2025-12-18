@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import { useRef } from 'react';
+import Link from 'next/link';
 
 interface Product {
   id: number;
@@ -13,7 +14,7 @@ interface Product {
 }
 
 interface Props {
-  product: Product[]; // এখানে array হিসেবে প্রপস নিবে
+  product: Product[]; 
 }
 
 const Products = ({ product }: Props) => {
@@ -47,7 +48,8 @@ const Products = ({ product }: Props) => {
         >
           {product.map((item) => (
             <SwiperSlide key={item.id}>
-              <div
+               <Link href={`/product/${item.id}`}>
+                <div
                 className="relative h-[302px] w-[302px] bg-cover bg-center rounded-lg transition-transform duration-300 hover:scale-105"
                 style={{
                   backgroundImage: `url(${item.image})`,
@@ -58,7 +60,8 @@ const Products = ({ product }: Props) => {
                     {item.title}
                   </p>
                 </div>
-              </div>
+              </div></Link>
+             
             </SwiperSlide>
           ))}
         </Swiper>
