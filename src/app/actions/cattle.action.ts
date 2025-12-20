@@ -1,18 +1,19 @@
-"use server";
+'use server';
 
-import fs from "fs";
-import path from "path";
-import { revalidatePath } from "next/cache";
+import fs from 'fs';
+import path from 'path';
+import { revalidatePath } from 'next/cache';
 
 export interface Cattle {
   id: number;
   title: string;
+  description: string;
   image: string;
   created: string;
 }
 
-const cattleDir = path.join(process.cwd(), "public/cattles");
-const jsonPath = path.join(cattleDir, "cattle.json");
+const cattleDir = path.join(process.cwd(), 'public/cattles');
+const jsonPath = path.join(cattleDir, 'cattle.json');
 
 function ensureDir() {
   if (!fs.existsSync(cattleDir)) {
@@ -28,20 +29,20 @@ export async function getCattles(): Promise<Cattle[]> {
     return [];
   }
 
-  const data = fs.readFileSync(jsonPath, "utf-8");
-  return JSON.parse(data);
+  return JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
 }
 
-export async function createCattle(formData: FormData): Promise<void> {
+/* ---------- CREATE ---------- */
+export async function createCattle(formData: FormData) {
   ensureDir();
 
-  const title = formData.get("title") as string;
-  const imageFile = formData.get("image") as File;
+  const title = formData.get('title') as string;
+  const description = formData.get('description') as string;
+  const imageFile = formData.get('image') as File;
 
-  if (!title || !imageFile) return;
+  if (!title || !description || !imageFile) return;
 
   const buffer = Buffer.from(await imageFile.arrayBuffer());
-
   const imageName = `${Date.now()}-${imageFile.name}`;
   fs.writeFileSync(path.join(cattleDir, imageName), buffer);
 
@@ -50,31 +51,74 @@ export async function createCattle(formData: FormData): Promise<void> {
   cattles.push({
     id: Date.now(),
     title,
+    description,
     image: `/cattles/${imageName}`,
-    created: new Date().toISOString().split("T")[0],
+    created: new Date().toISOString().split('T')[0],
   });
 
   fs.writeFileSync(jsonPath, JSON.stringify(cattles, null, 2));
-  revalidatePath("/dashboard/cattles");
+  revalidatePath('/dashboard/cattles');
 }
 
-export async function deleteCattle(id: number): Promise<boolean> {
+/* ---------- UPDATE ---------- */
+export async function updateCattle(id: number, formData: FormData) {
   try {
+    ensureDir();
+
+    const title = formData.get('title') as string;
+    const description = formData.get('description') as string;
+    const imageFile = formData.get('image') as File | null;
+
     const cattles = await getCattles();
-    const cattle = cattles.find(c => c.id === id);
-    if (!cattle) return false;
+    const index = cattles.findIndex((c) => c.id === id);
+    if (index === -1) return false;
 
-    const imgPath = path.join(process.cwd(), "public", cattle.image);
-    if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+    let imagePath = cattles[index].image;
 
-    fs.writeFileSync(
-      jsonPath,
-      JSON.stringify(cattles.filter(c => c.id !== id), null, 2)
-    );
+    if (imageFile && imageFile.size > 0) {
+      const buffer = Buffer.from(await imageFile.arrayBuffer());
+      const imageName = `${Date.now()}-${imageFile.name}`;
+      fs.writeFileSync(path.join(cattleDir, imageName), buffer);
 
-    revalidatePath("/dashboard/cattles");
+      const oldImage = path.join(process.cwd(), 'public', imagePath);
+      if (fs.existsSync(oldImage)) fs.unlinkSync(oldImage);
+
+      imagePath = `/cattles/${imageName}`;
+    }
+
+    cattles[index] = {
+      ...cattles[index],
+      title,
+      description,
+      image: imagePath,
+    };
+
+    fs.writeFileSync(jsonPath, JSON.stringify(cattles, null, 2));
+    revalidatePath('/dashboard/cattles');
     return true;
   } catch {
     return false;
   }
+}
+
+/* ---------- DELETE ---------- */
+export async function deleteCattle(id: number) {
+  const cattles = await getCattles();
+  const cattle = cattles.find((c) => c.id === id);
+  if (!cattle) return false;
+
+  const imgPath = path.join(process.cwd(), 'public', cattle.image);
+  if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+
+  fs.writeFileSync(
+    jsonPath,
+    JSON.stringify(
+      cattles.filter((c) => c.id !== id),
+      null,
+      2
+    )
+  );
+
+  revalidatePath('/dashboard/cattles');
+  return true;
 }

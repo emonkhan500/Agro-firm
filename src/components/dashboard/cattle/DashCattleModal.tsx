@@ -6,10 +6,12 @@ import * as Yup from 'yup';
 import { useState } from 'react';
 import { createCattle } from '@/app/actions/cattle.action';
 import { Upload } from 'lucide-react';
+import RichTextArea from '@/components/ui/RichTextArea';
 
 export interface CattlePayload {
   title: string;
   image: File | null;
+  description: string;
 }
 
 interface Props {
@@ -24,15 +26,18 @@ const DashCattleModal = ({ open, onClose }: Props) => {
     initialValues: {
       title: '',
       image: null,
+      description: '',
     },
     validationSchema: Yup.object({
       title: Yup.string().required('Cattle name is required'),
       image: Yup.mixed().required('Cattle image is required'),
+      description: Yup.string().required('Cattle description is required'),
     }),
     onSubmit: async (values, { resetForm }) => {
       const formData = new FormData();
       formData.append('title', values.title);
       formData.append('image', values.image as File);
+      formData.append('description', values.description);
 
       await createCattle(formData);
 
@@ -53,10 +58,11 @@ const DashCattleModal = ({ open, onClose }: Props) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-2">
       <div onClick={onClose} className="absolute inset-0 bg-black/40" />
 
-      <div className="relative w-full max-w-lg rounded-lg bg-white shadow-lg">
+      {/* 🔹 width increased */}
+      <div className="relative w-full max-w-2xl rounded-lg bg-white shadow-lg">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border-gray px-6 py-4">
           <h2 className="text-lg font-semibold">Add New Cattle</h2>
@@ -69,40 +75,35 @@ const DashCattleModal = ({ open, onClose }: Props) => {
           <div className="space-y-5 px-6 py-6">
             {/* Title */}
             <div>
-              <label className="mb-1 block text-sm font-medium">
-                Cattle Name *
-              </label>
+              <label className="text-sm font-medium">Cattle Name *</label>
               <input
                 name="title"
                 value={formik.values.title}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="w-full rounded-md border border-border-gray px-4 py-2 text-sm"
+                className="mt-1 w-full rounded-md border border-border-gray px-4 py-2 text-sm"
               />
               {formik.touched.title && formik.errors.title && (
-                <p className="mt-1 text-xs text-custom-red">
-                  {formik.errors.title}
-                </p>
+                <p className="text-xs text-custom-red">{formik.errors.title}</p>
               )}
             </div>
 
             {/* Image */}
             <div>
-              <label className="mb-2 block text-sm font-medium">
-                Cattle Image *
-              </label>
-              <label className="flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-border-gray border-dashed bg-gray-50">
+              <label className="text-sm font-medium">Cattle Image *</label>
+              <label className="mt-2 flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-border-gray border-dashed bg-gray-50">
                 {preview ? (
                   <img
                     src={preview}
                     className="h-full w-full rounded-md object-cover"
-                    alt="preview"
                   />
                 ) : (
                   <>
-                    <Upload className='mb-4'/>
+                    <Upload className="mb-4" />
                     <p className="font-medium">Click to upload cattle image</p>
-                    <p className="text-xs text-sidebar-text">PNG / JPG / JPEG</p>
+                    <p className="text-xs text-sidebar-text">
+                      PNG / JPG / JPEG
+                    </p>
                   </>
                 )}
                 <input
@@ -113,8 +114,37 @@ const DashCattleModal = ({ open, onClose }: Props) => {
                 />
               </label>
               {formik.touched.image && formik.errors.image && (
-                <p className="mt-1 text-xs text-custom-red">
+                <p className="text-xs text-custom-red">
                   {formik.errors.image as string}
+                </p>
+              )}
+            </div>
+
+            {/* Description */}
+            <div>
+              <label className="text-sm font-medium">
+                Cattle Description *
+              </label>
+
+              {/* ✅ FIXED WRAPPER */}
+              <div className="mt-1 rounded-md border border-border-gray">
+                <div className="max-h-[260px] overflow-y-auto">
+                  <RichTextArea
+                    height={160}
+                    defaultValue={formik.values.description}
+                    onChange={(value) =>
+                      formik.setFieldValue('description', value)
+                    }
+                    handleBlur={() =>
+                      formik.setFieldTouched('description', true)
+                    }
+                  />
+                </div>
+              </div>
+
+              {formik.touched.description && formik.errors.description && (
+                <p className="text-xs text-custom-red">
+                  {formik.errors.description}
                 </p>
               )}
             </div>

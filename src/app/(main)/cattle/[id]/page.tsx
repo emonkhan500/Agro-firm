@@ -1,11 +1,18 @@
-import CattleDetails from "@/views/CattleDetailsView";
+import CattleDetailsView from '@/views/CattleDetailsView';
 
-const page = () => {
-    return (
-        <>
-            <CattleDetails/>
-        </>
-    );
+interface CattletProps {
+  params: {
+    id: string;
+  };
+}
+const page = async ({ params }: CattletProps) => {
+  const { id } = await params;
+  console.log(id);
+  return (
+    <>
+      <CattleDetailsView params={id} />
+    </>
+  );
 };
 
 export default page;

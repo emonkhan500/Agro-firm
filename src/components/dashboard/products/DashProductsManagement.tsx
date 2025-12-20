@@ -90,7 +90,10 @@ const DashProductsManagement = ({ initialProducts }: Props) => {
 
           <tbody>
             {initialProducts.map((item, index) => (
-              <tr key={item.id} className="border-b border-border-gray hover:bg-gray">
+              <tr
+                key={item.id}
+                className="border-b border-border-gray hover:bg-gray"
+              >
                 <td className="px-6 py-4">{index + 1}</td>
 
                 <td className="px-6 py-4">

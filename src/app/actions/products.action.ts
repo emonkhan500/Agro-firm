@@ -1,8 +1,8 @@
-"use server";
+'use server';
 
-import fs from "fs";
-import path from "path";
-import { revalidatePath } from "next/cache";
+import fs from 'fs';
+import path from 'path';
+import { revalidatePath } from 'next/cache';
 
 export interface Product {
   id: number;
@@ -12,8 +12,8 @@ export interface Product {
   created: string;
 }
 
-const productDir = path.join(process.cwd(), "public/products");
-const jsonPath = path.join(productDir, "product.json");
+const productDir = path.join(process.cwd(), 'public/products');
+const jsonPath = path.join(productDir, 'product.json');
 
 /* ======================
    Ensure directory
@@ -35,7 +35,7 @@ export async function getProducts(): Promise<Product[]> {
     return [];
   }
 
-  return JSON.parse(fs.readFileSync(jsonPath, "utf-8"));
+  return JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
 }
 
 /* ======================
@@ -44,9 +44,9 @@ export async function getProducts(): Promise<Product[]> {
 export async function createProduct(formData: FormData) {
   ensureDir();
 
-  const title = formData.get("title") as string;
-  const description = formData.get("description") as string;
-  const imageFile = formData.get("image") as File;
+  const title = formData.get('title') as string;
+  const description = formData.get('description') as string;
+  const imageFile = formData.get('image') as File;
 
   if (!title || !description || !imageFile) return;
 
@@ -63,14 +63,14 @@ export async function createProduct(formData: FormData) {
     title,
     description,
     image: `/products/${imageName}`,
-    created: new Date().toISOString().split("T")[0],
+    created: new Date().toISOString().split('T')[0],
   };
 
   products.push(newProduct);
 
   fs.writeFileSync(jsonPath, JSON.stringify(products, null, 2));
 
-  revalidatePath("/dashboard/products");
+  revalidatePath('/dashboard/products');
 }
 
 /* ======================
@@ -79,18 +79,22 @@ export async function createProduct(formData: FormData) {
 export async function deleteProduct(id: number): Promise<boolean> {
   try {
     const products = await getProducts();
-    const product = products.find(p => p.id === id);
+    const product = products.find((p) => p.id === id);
     if (!product) return false;
 
-    const imgPath = path.join(process.cwd(), "public", product.image);
+    const imgPath = path.join(process.cwd(), 'public', product.image);
     if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
 
     fs.writeFileSync(
       jsonPath,
-      JSON.stringify(products.filter(p => p.id !== id), null, 2)
+      JSON.stringify(
+        products.filter((p) => p.id !== id),
+        null,
+        2
+      )
     );
 
-    revalidatePath("/dashboard/products");
+    revalidatePath('/dashboard/products');
     return true;
   } catch (err) {
     console.error(err);
@@ -112,12 +116,12 @@ export async function updateProduct(
     const imageFile = formData.get('image') as File | null;
 
     const products = await getProducts();
-    const index = products.findIndex(p => p.id === id);
+    const index = products.findIndex((p) => p.id === id);
     if (index === -1) return false;
 
     let imagePath = products[index].image;
 
-    // 🔄 If new image selected
+    //  If new image selected
     if (imageFile && imageFile.size > 0) {
       const buffer = Buffer.from(await imageFile.arrayBuffer());
       const imageName = `${Date.now()}-${imageFile.name}`;

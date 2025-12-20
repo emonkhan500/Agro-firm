@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1766235066318",
+    "title": "Our cattle grow naturally is a balanced diet that boosts strength and improves overall development.",
+    "mainImage": "/why-us/1766235066314-gallary2.png",
+    "iconImage": "/why-us/1766235066314-graph.png",
+    "created": "12/20/2025",
+    "order": 0
+  },
+  {
+    "id": "1766235112426",
+    "title": "Every cow receives fresh, high-quality feed daily to ensure  better health energy and productivity.",
+    "mainImage": "/why-us/1766235112422-cows.png",
+    "iconImage": "/why-us/1766235112422-leaf.png",
+    "created": "12/20/2025",
+    "order": 1
+  },
+  {
+    "id": "1766235158761",
+    "title": "We provide clean, chemical-free green grass that keeps our cattle healthy and ensures pure, quality milk.",
+    "mainImage": "/why-us/1766235158753-gallary5.png",
+    "iconImage": "/why-us/1766235158753-grass.png",
+    "created": "12/20/2025",
+    "order": 2
+  },
+  {
+    "id": "1766235193426",
+    "title": "Healthy, well-nourished cattle ensuring the finest farm products. cattle healthy and ensures pure, quality milk.",
+    "mainImage": "/why-us/1766235193421-gallary4.png",
+    "iconImage": "/why-us/1766235193421-cow.png",
+    "created": "12/20/2025",
+    "order": 3
+  }
+]

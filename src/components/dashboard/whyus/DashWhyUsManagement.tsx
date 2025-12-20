@@ -1,19 +1,41 @@
 'use client';
 
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { useState } from 'react';
-import DashWhyUsModal, { WhyUsPayload } from './DashWhyUsModal';
+import { useEffect, useState } from 'react';
+import DashWhyUsModal from './DashWhyUsModal';
+import DashWhyUsUpdateModal from './DashWhyUsUpdateModal';
+import { getWhyUs, deleteWhyUs } from '@/app/actions/whyus.action';
+import Swal from 'sweetalert2';
 
-interface WhyUs extends WhyUsPayload {
+interface WhyUs {
+  id: string;
+  title: string;
+  mainImage: string;
+  iconImage: string;
   order: number;
 }
 
 const DashWhyUsManagement = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [edit, setEdit] = useState<WhyUs | null>(null);
   const [whyUsList, setWhyUsList] = useState<WhyUs[]>([]);
 
-  const handleAddWhyUs = (data: WhyUsPayload) => {
-    setWhyUsList((prev) => [...prev, { ...data, order: prev.length + 1 }]);
+  useEffect(() => {
+    getWhyUs().then(setWhyUsList);
+  }, []);
+
+  const handleDelete = async (id: string) => {
+    const res = await Swal.fire({
+      title: 'Are you sure?',
+      showCancelButton: true,
+      icon: 'warning',
+    });
+    if (!res.isConfirmed) return;
+
+    const deleted = await deleteWhyUs(id);
+    if (deleted) {
+      setWhyUsList((p) => p.filter((i) => i.id !== id));
+    }
   };
 
   return (
@@ -28,7 +50,6 @@ const DashWhyUsManagement = () => {
           </p>
         </div>
 
-        {/* Action */}
         <div className="mb-6 flex justify-end">
           <button
             onClick={() => setOpenModal(true)}
@@ -68,11 +89,11 @@ const DashWhyUsManagement = () => {
                 key={item.id}
                 className="border-b border-border-gray hover:bg-gray-50 transition"
               >
-                <td className="px-6 py-4">{item.order}</td>
+                <td className="px-6 py-4">{item.order + 1}</td>
 
                 <td className="px-6 py-4">
                   <img
-                    src={item.image}
+                    src={item.mainImage}
                     alt="why-us"
                     className="h-12 w-20 rounded object-cover"
                   />
@@ -82,10 +103,16 @@ const DashWhyUsManagement = () => {
 
                 <td className="px-6 py-4 text-center">
                   <div className="flex justify-center gap-2">
-                    <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg">
+                    <button
+                      onClick={() => setEdit(item)}
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg"
+                    >
                       <PencilIcon className="h-4 w-4" />
                     </button>
-                    <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg">
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg"
+                    >
                       <TrashIcon className="h-4 w-4" />
                     </button>
                   </div>
@@ -99,7 +126,16 @@ const DashWhyUsManagement = () => {
       <DashWhyUsModal
         open={openModal}
         onClose={() => setOpenModal(false)}
-        onSubmit={handleAddWhyUs}
+        onCreated={(item) => setWhyUsList((p) => [...p, item])}
+      />
+
+      <DashWhyUsUpdateModal
+        open={!!edit}
+        whyus={edit}
+        onClose={() => setEdit(null)}
+        onUpdated={(u) =>
+          setWhyUsList((p) => p.map((i) => (i.id === u.id ? u : i)))
+        }
       />
     </section>
   );

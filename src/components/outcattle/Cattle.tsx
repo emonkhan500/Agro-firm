@@ -1,8 +1,9 @@
-import { getCattles } from "@/app/actions/cattle.action";
-import Link from "next/link";
+import { getCattles } from '@/app/actions/cattle.action';
+import Link from 'next/link';
 
-const Cattle =async () => {
- const cattles = await getCattles();
+const Cattle = async () => {
+  const cattles = await getCattles();
+  console.log(cattles);
   return (
     <section className="mt-10 md:mt-25">
       <div className="wraper relative px-5 lg:px-10 xl:px-20 2xl:px-20">

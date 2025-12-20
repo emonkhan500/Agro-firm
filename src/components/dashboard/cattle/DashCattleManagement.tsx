@@ -4,11 +4,13 @@ import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import DashCattleModal from './DashCattleModal';
+import DashCattleUpdateModal from './DashCattleUpdateModal';
 import { deleteCattle } from '@/app/actions/cattle.action';
 
 export interface Cattle {
   id: number;
   title: string;
+  description: string;
   image: string;
   created: string;
 }
@@ -18,8 +20,12 @@ interface Props {
 }
 
 const DashCattleManagement = ({ initialCattles }: Props) => {
-  const [openModal, setOpenModal] = useState(false);
+  console.log(initialCattles);
+  const [openCreateModal, setOpenCreateModal] = useState(false);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [selectedCattle, setSelectedCattle] = useState<Cattle | null>(null);
 
+  /* ---------------- Delete ---------------- */
   const handleDeleteCattle = async (id: number) => {
     const result = await Swal.fire({
       title: 'Are you sure?',
@@ -42,9 +48,15 @@ const DashCattleManagement = ({ initialCattles }: Props) => {
     });
   };
 
+  /* ---------------- Edit ---------------- */
+  const handleEditCattle = (cattle: Cattle) => {
+    setSelectedCattle(cattle);
+    setOpenUpdateModal(true);
+  };
+
   return (
     <section className="mt-10">
-      {/* header */}
+      {/* Header */}
       <div className="mb-6 flex justify-between">
         <div>
           <h1 className="text-2xl font-semibold">Cattle Management</h1>
@@ -54,33 +66,33 @@ const DashCattleManagement = ({ initialCattles }: Props) => {
         </div>
 
         <button
-          onClick={() => setOpenModal(true)}
+          onClick={() => setOpenCreateModal(true)}
           className="h-12 rounded-md bg-active-nav px-6 text-white"
         >
           + Add New Cattle
         </button>
       </div>
 
-      {/* table */}
+      {/* Table */}
       <div className="overflow-x-auto rounded-xl bg-white shadow-sm border border-border-gray">
         <table className="min-w-[900px] w-full border-collapse text-sm">
           <thead>
             <tr className="border-b border-border-gray bg-gray font-semibold text-left">
               <th className="px-6 py-4 w-[80px]">#</th>
               <th className="px-6 py-4 w-[140px]">Image</th>
-              <th className="px-6 py-4">Product Name</th>
+              <th className="px-6 py-4">Cattle Name</th>
               <th className="px-6 py-4 w-[160px]">Created</th>
               <th className="px-6 py-4 w-[160px] text-center">Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            {initialCattles.map((item, i) => (
+            {initialCattles.map((item, index) => (
               <tr
                 key={item.id}
                 className="border-b border-border-gray hover:bg-gray-50 transition"
               >
-                <td className="px-6 py-4">{i + 1}</td>
+                <td className="px-6 py-4">{index + 1}</td>
 
                 <td className="px-6 py-4">
                   <img
@@ -96,7 +108,10 @@ const DashCattleManagement = ({ initialCattles }: Props) => {
 
                 <td className="px-6 py-4">
                   <div className="flex justify-center gap-2">
-                    <button className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center">
+                    <button
+                      onClick={() => handleEditCattle(item)}
+                      className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center"
+                    >
                       <PencilIcon className="h-4 w-4" />
                     </button>
 
@@ -114,7 +129,21 @@ const DashCattleManagement = ({ initialCattles }: Props) => {
         </table>
       </div>
 
-      <DashCattleModal open={openModal} onClose={() => setOpenModal(false)} />
+      {/* Create Modal */}
+      <DashCattleModal
+        open={openCreateModal}
+        onClose={() => setOpenCreateModal(false)}
+      />
+
+      {/* Update Modal */}
+      <DashCattleUpdateModal
+        open={openUpdateModal}
+        cattle={selectedCattle}
+        onClose={() => {
+          setOpenUpdateModal(false);
+          setSelectedCattle(null);
+        }}
+      />
     </section>
   );
 };

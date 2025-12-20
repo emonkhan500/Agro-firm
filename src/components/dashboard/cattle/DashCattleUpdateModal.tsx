@@ -3,51 +3,68 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useState } from 'react';
-import { createProduct } from '@/app/actions/products.action';
+import { useEffect, useState } from 'react';
 import { Upload } from 'lucide-react';
 import RichTextArea from '@/components/ui/RichTextArea';
+import { updateCattle } from '@/app/actions/cattle.action';
 
-export interface ProductPayload {
+interface Cattle {
+  id: number;
   title: string;
-  image: File | null;
   description: string;
+  image: string;
+  created: string;
 }
 
 interface Props {
   open: boolean;
+  cattle: Cattle | null;
   onClose: () => void;
 }
 
-const DashProductModal = ({ open, onClose }: Props) => {
+interface FormValues {
+  title: string;
+  description: string;
+  image: File | null;
+}
+
+const DashCattleUpdateModal = ({ open, cattle, onClose }: Props) => {
   const [preview, setPreview] = useState<string | null>(null);
 
-  const formik = useFormik<ProductPayload>({
+  const formik = useFormik<FormValues>({
+    enableReinitialize: true,
     initialValues: {
-      title: '',
+      title: cattle?.title || '',
+      description: cattle?.description || '',
       image: null,
-      description: '',
     },
     validationSchema: Yup.object({
-      title: Yup.string().required('Product title is required'),
-      image: Yup.mixed().required('Product image is required'),
-      description: Yup.string().required('Product description is required'),
+      title: Yup.string().required('Cattle name is required'),
+      description: Yup.string().required('Cattle description is required'),
     }),
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values) => {
+      if (!cattle) return;
+
       const formData = new FormData();
       formData.append('title', values.title);
-      formData.append('image', values.image as File);
       formData.append('description', values.description);
+      if (values.image) formData.append('image', values.image);
 
-      await createProduct(formData);
-
-      resetForm();
-      setPreview(null);
+      await updateCattle(cattle.id, formData);
       onClose();
     },
   });
 
-  if (!open) return null;
+  useEffect(() => {
+    setPreview(cattle?.image || null);
+  }, [cattle]);
+
+  if (!open || !cattle) return null;
+
+  const isChanged =
+    formik.values.title !== cattle.title ||
+    formik.values.description !== cattle.description ||
+    formik.values.image;
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -58,35 +75,28 @@ const DashProductModal = ({ open, onClose }: Props) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-2 md:px-0">
-      {/* Overlay */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-2">
       <div onClick={onClose} className="absolute inset-0 bg-black/40" />
 
-      {/* Modal */}
+      {/* 🔹 width increased */}
       <div className="relative w-full max-w-2xl rounded-lg bg-white shadow-lg">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border-gray px-6 py-4">
-          <h2 className="text-lg font-semibold">Add New Product</h2>
+          <h2 className="text-lg font-semibold">Update Cattle</h2>
           <button onClick={onClose}>
             <XMarkIcon className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Form */}
-        <form
-          onSubmit={formik.handleSubmit}
-          className="flex max-h-[85vh] flex-col"
-        >
-          {/* Body (scrollable) */}
-          <div className="flex-1 space-y-5 overflow-y-auto px-6 py-6">
+        <form onSubmit={formik.handleSubmit}>
+          <div className="space-y-5 px-6 py-6">
             {/* Title */}
             <div>
-              <label className="text-sm font-medium">Product Title *</label>
+              <label className="text-sm font-medium">Cattle Name *</label>
               <input
                 name="title"
                 value={formik.values.title}
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
                 className="mt-1 w-full rounded-md border border-border-gray px-4 py-2 text-sm"
               />
               {formik.touched.title && formik.errors.title && (
@@ -96,22 +106,17 @@ const DashProductModal = ({ open, onClose }: Props) => {
 
             {/* Image */}
             <div>
-              <label className="text-sm font-medium">Product Image *</label>
-
-              <label className="mt-2 flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-border-gray border-dashed bg-gray">
+              <label className="text-sm font-medium">Cattle Image</label>
+              <label className="mt-2 flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-border-gray border-dashed bg-gray-50">
                 {preview ? (
                   <img
                     src={preview}
-                    alt="preview"
                     className="h-full w-full rounded-md object-cover"
                   />
                 ) : (
                   <>
-                    <Upload className="mb-3" />
-                    <p className="font-medium">Click to upload product image</p>
-                    <p className="text-xs text-sidebar-text">
-                      PNG / JPG / JPEG
-                    </p>
+                    <Upload className="mb-4" />
+                    <p className="font-medium">Click to upload cattle image</p>
                   </>
                 )}
                 <input
@@ -121,29 +126,28 @@ const DashProductModal = ({ open, onClose }: Props) => {
                   onChange={handleImageChange}
                 />
               </label>
-
-              {formik.touched.image && formik.errors.image && (
-                <p className="text-xs text-custom-red">
-                  {formik.errors.image as string}
-                </p>
-              )}
             </div>
 
             {/* Description */}
             <div>
               <label className="text-sm font-medium">
-                Product Description *
+                Cattle Description *
               </label>
 
-              <div className="mt-1 overflow-hidden rounded-md border-border-gray border">
-                <RichTextArea
-                  height={180}
-                  defaultValue={formik.values.description}
-                  onChange={(value) =>
-                    formik.setFieldValue('description', value)
-                  }
-                  handleBlur={() => formik.setFieldTouched('description', true)}
-                />
+              {/* ✅ FIXED WRAPPER */}
+              <div className="mt-1 rounded-md border border-border-gray">
+                <div className="max-h-[260px] overflow-y-auto">
+                  <RichTextArea
+                    height={160}
+                    defaultValue={formik.values.description}
+                    onChange={(value) =>
+                      formik.setFieldValue('description', value)
+                    }
+                    handleBlur={() =>
+                      formik.setFieldTouched('description', true)
+                    }
+                  />
+                </div>
               </div>
 
               {formik.touched.description && formik.errors.description && (
@@ -154,8 +158,8 @@ const DashProductModal = ({ open, onClose }: Props) => {
             </div>
           </div>
 
-          {/* Footer (fixed) */}
-          <div className="flex justify-end gap-3 border-t border-border-gray bg-white px-6 py-4">
+          {/* Footer */}
+          <div className="mt-8 flex justify-end gap-3 border-t border-border-gray px-6 py-4">
             <button
               type="button"
               onClick={onClose}
@@ -165,9 +169,14 @@ const DashProductModal = ({ open, onClose }: Props) => {
             </button>
             <button
               type="submit"
-              className="rounded-md bg-active-nav px-6 py-2 text-sm text-white"
+              disabled={!isChanged}
+              className={`rounded-md px-6 py-2 text-sm text-white ${
+                isChanged
+                  ? 'bg-active-nav'
+                  : 'bg-disable-gray cursor-not-allowed'
+              }`}
             >
-              Add Product
+              Update Cattle
             </button>
           </div>
         </form>
@@ -176,4 +185,4 @@ const DashProductModal = ({ open, onClose }: Props) => {
   );
 };
 
-export default DashProductModal;
+export default DashCattleUpdateModal;

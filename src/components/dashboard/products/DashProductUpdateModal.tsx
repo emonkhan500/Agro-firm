@@ -32,7 +32,7 @@ const DashProductUpdateModal = ({ open, product, onClose }: Props) => {
   const [preview, setPreview] = useState<string | null>(null);
 
   const formik = useFormik<FormValues>({
-    enableReinitialize: true, // 🔑 important
+    enableReinitialize: true,
     initialValues: {
       title: product?.title || '',
       description: product?.description || '',
@@ -83,7 +83,7 @@ const DashProductUpdateModal = ({ open, product, onClose }: Props) => {
 
       <div className="relative w-full max-w-2xl rounded-lg bg-white shadow-lg overflow-y-auto max-h-[90vh]">
         {/* Header */}
-        <div className="flex items-center justify-between border-b px-6 py-4">
+        <div className="flex items-center justify-between border-b border-border-gray px-6 py-4">
           <h2 className="text-lg font-semibold">Update Product</h2>
           <button onClick={onClose}>
             <XMarkIcon className="h-5 w-5" />
@@ -99,7 +99,7 @@ const DashProductUpdateModal = ({ open, product, onClose }: Props) => {
                 name="title"
                 value={formik.values.title}
                 onChange={formik.handleChange}
-                className="mt-1 w-full rounded-md border px-4 py-2 text-sm"
+                className="mt-1 w-full rounded-md border border-border-gray px-4 py-2 text-sm"
               />
               {formik.touched.title && formik.errors.title && (
                 <p className="text-xs text-red-500">{formik.errors.title}</p>
@@ -109,7 +109,7 @@ const DashProductUpdateModal = ({ open, product, onClose }: Props) => {
             {/* Image */}
             <div>
               <label className="text-sm font-medium">Product Image</label>
-              <label className="mt-2 flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed bg-gray">
+              <label className="mt-2 flex h-36 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-border-gray border-dashed bg-gray">
                 {preview ? (
                   <img
                     src={preview}
@@ -136,7 +136,9 @@ const DashProductUpdateModal = ({ open, product, onClose }: Props) => {
 
             {/* Description */}
             <div>
-              <label className="text-sm font-medium">Product Description *</label>
+              <label className="text-sm font-medium">
+                Product Description *
+              </label>
               <RichTextArea
                 height={150}
                 defaultValue={formik.values.description}
@@ -144,17 +146,19 @@ const DashProductUpdateModal = ({ open, product, onClose }: Props) => {
                 handleBlur={() => formik.setFieldTouched('description', true)}
               />
               {formik.touched.description && formik.errors.description && (
-                <p className="text-xs text-red-500">{formik.errors.description}</p>
+                <p className="text-xs text-custom-red">
+                  {formik.errors.description}
+                </p>
               )}
             </div>
           </div>
 
           {/* Footer */}
-          <div className="flex justify-end gap-3 border-t px-6 py-4 mt-10">
+          <div className="flex justify-end gap-3 border-t border-border-gray px-6 py-4 mt-10">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md border px-5 py-2 text-sm"
+              className="rounded-md border border-border-gray px-5 py-2 text-sm"
             >
               Cancel
             </button>
@@ -162,7 +166,9 @@ const DashProductUpdateModal = ({ open, product, onClose }: Props) => {
               type="submit"
               disabled={!isChanged}
               className={`rounded-md px-6 py-2 text-sm text-white ${
-                isChanged ? 'bg-active-nav' : 'bg-gray-300 cursor-not-allowed'
+                isChanged
+                  ? 'bg-active-nav'
+                  : 'bg-disable-gray cursor-not-allowed'
               }`}
             >
               Update Product

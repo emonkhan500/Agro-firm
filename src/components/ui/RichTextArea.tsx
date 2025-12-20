@@ -50,7 +50,7 @@ const RichTextArea = ({
       modules={{ toolbar: toolbarOptions }}
       className={className}
       style={{
-        height: `${height}px`,
+        height: `${height}px fixed`,
         ...style,
       }}
     />

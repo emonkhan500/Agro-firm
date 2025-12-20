@@ -4,48 +4,52 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Upload } from 'lucide-react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useState } from 'react';
-import { createWhyUs } from '@/app/actions/whyus.action';
+import { updateWhyUs } from '@/app/actions/whyus.action';
+import { useEffect, useState } from 'react';
 
 interface Props {
   open: boolean;
+  whyus: any;
   onClose: () => void;
-  onCreated: (item: any) => void;
+  onUpdated: (item: any) => void;
 }
 
-const DashWhyUsModal = ({ open, onClose, onCreated }: Props) => {
+const DashWhyUsUpdateModal = ({ open, whyus, onClose, onUpdated }: Props) => {
   const [mainPreview, setMainPreview] = useState<string | null>(null);
-  const [iconPreview, setIconPreview] = useState<string | null>(null);
 
   const formik = useFormik({
     initialValues: {
       title: '',
       mainImage: null as File | null,
-      iconImage: null as File | null,
     },
+    enableReinitialize: true,
     validationSchema: Yup.object({
       title: Yup.string().required('Title is required'),
-      mainImage: Yup.mixed().required('Main image is required'),
-      iconImage: Yup.mixed().required('Icon image is required'),
     }),
     onSubmit: async (values) => {
-      if (!values.mainImage || !values.iconImage) return;
-
       const fd = new FormData();
-      fd.append('mainImage', values.mainImage);
-      fd.append('iconImage', values.iconImage);
+      if (values.mainImage) fd.append('mainImage', values.mainImage);
 
-      const saved = await createWhyUs(fd, { title: values.title });
+      const updated = await updateWhyUs(whyus.id, fd, {
+        title: values.title,
+      });
 
-      onCreated(saved);
+      onUpdated(updated);
       onClose();
-      formik.resetForm();
-      setMainPreview(null);
-      setIconPreview(null);
     },
   });
 
-  if (!open) return null;
+  useEffect(() => {
+    if (whyus) {
+      formik.setValues({
+        title: whyus.title,
+        mainImage: null,
+      });
+      setMainPreview(whyus.mainImage);
+    }
+  }, [whyus]);
+
+  if (!open || !whyus) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -53,8 +57,8 @@ const DashWhyUsModal = ({ open, onClose, onCreated }: Props) => {
 
       <div className="relative z-10 w-[520px] rounded-lg bg-white p-6">
         {/* Header */}
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Add Why Us</h2>
+        <div className="mb-6 flex justify-between">
+          <h2 className="text-lg font-semibold">Update Why Us</h2>
           <button onClick={onClose}>
             <XMarkIcon className="h-5 w-5" />
           </button>
@@ -74,7 +78,7 @@ const DashWhyUsModal = ({ open, onClose, onCreated }: Props) => {
             />
           </div>
 
-          {/* ===== MAIN IMAGE (BANNER STYLE) ===== */}
+          {/* Main Image */}
           <div>
             <label className="mb-2 block text-sm font-medium">
               Main Image <span className="text-custom-red">*</span>
@@ -85,7 +89,7 @@ const DashWhyUsModal = ({ open, onClose, onCreated }: Props) => {
                 <img
                   src={mainPreview}
                   className="h-full w-full rounded-md object-cover"
-                  alt="preview"
+                  alt="main preview"
                 />
               ) : (
                 <>
@@ -109,52 +113,21 @@ const DashWhyUsModal = ({ open, onClose, onCreated }: Props) => {
                 }}
               />
             </label>
-
-            {formik.touched.mainImage && formik.errors.mainImage && (
-              <p className="mt-1 text-xs text-custom-red">
-                {formik.errors.mainImage as string}
-              </p>
-            )}
           </div>
 
-          {/* ===== ICON IMAGE (SAME DESIGN, SMALL HEIGHT) ===== */}
+          {/* Icon Image (readonly) */}
           <div>
             <label className="mb-2 block text-sm font-medium">
-              Icon Image <span className="text-custom-red">*</span>
+              Icon Image (Readonly)
             </label>
 
-            <label className="flex h-24 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-border-gray bg-gray">
-              {iconPreview ? (
-                <img
-                  src={iconPreview}
-                  className="h-full w-full rounded-md object-cover"
-                  alt="preview"
-                />
-              ) : (
-                <>
-                  <Upload className="mb-2" />
-                  <p className="text-sm font-medium">Upload icon</p>
-                </>
-              )}
-
-              <input
-                type="file"
-                hidden
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (!file) return;
-                  formik.setFieldValue('iconImage', file);
-                  setIconPreview(URL.createObjectURL(file));
-                }}
+            <label className="flex h-24 items-center justify-center rounded-md border-2 border-border-gray bg-gray">
+              <img
+                src={whyus.iconImage}
+                alt="icon"
+                className="h-full w-full rounded-md object-cover"
               />
             </label>
-
-            {formik.touched.iconImage && formik.errors.iconImage && (
-              <p className="mt-1 text-xs text-custom-red">
-                {formik.errors.iconImage as string}
-              </p>
-            )}
           </div>
 
           {/* Footer */}
@@ -170,7 +143,7 @@ const DashWhyUsModal = ({ open, onClose, onCreated }: Props) => {
               type="submit"
               className="rounded-md bg-active-nav px-6 py-2 text-sm text-white"
             >
-              Save
+              Update
             </button>
           </div>
         </form>
@@ -179,4 +152,4 @@ const DashWhyUsModal = ({ open, onClose, onCreated }: Props) => {
   );
 };
 
-export default DashWhyUsModal;
+export default DashWhyUsUpdateModal;

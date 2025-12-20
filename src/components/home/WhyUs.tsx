@@ -3,37 +3,18 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
-const cards = [
-  {
-    icon: '/icon/graph.png',
-    text: `Our cattle grow naturally is a balanced diet that boosts
-    strength and improves overall development.`,
-  },
-  {
-    icon: '/icon/leaf.png',
-    text: `Every cow receives fresh, high-quality feed daily to ensure
-    better health energy and productivity.`,
-  },
-  {
-    icon: '/icon/grass.png',
-    text: `We provide clean, chemical-free green grass that keeps our
-    cattle healthy and ensures pure, quality milk.`,
-  },
-  {
-    icon: '/icon/cow.png',
-    text: `Healthy, well-nourished cattle ensuring the finest farm
-    products. cattle healthy and ensures pure, quality milk.`,
-  },
-];
+export interface WhyUsItem {
+  id: string;
+  title: string;
+  mainImage: string;
+  iconImage: string;
+}
 
-const images = [
-  '/gallary/gallary2.png',
-  '/cows.png',
-  '/gallary/gallary5.png',
-  '/gallary/gallary4.png',
-];
+interface Props {
+  whyus: WhyUsItem[];
+}
 
-const WhyUs = () => {
+const WhyUs = ({ whyus }: Props) => {
   const [activeImage, setActiveImage] = useState(0);
 
   return (
@@ -51,15 +32,15 @@ const WhyUs = () => {
           </p>
 
           <div className="py-2 md:py-5 flex flex-col gap-2.5 md:gap-5">
-            {cards.map((item, index) => (
+            {whyus.map((item, index) => (
               <div
-                key={index}
+                key={item.id}
                 onClick={() => setActiveImage(index)}
                 className={`flex gap-2.5 md:gap-7 items-center bg-primary-bg rounded-xl cursor-pointer border transition-all duration-300 ${
                   activeImage === index
                     ? 'border-call-bg'
                     : 'border-transparent'
-                }  ${
+                } ${
                   index === 0
                     ? 'justify-between py-5 md:py-7.5 px-5 md:px-7.5'
                     : 'justify-center py-7.5 px-7 max-h-[100px]'
@@ -68,20 +49,19 @@ const WhyUs = () => {
                 <div className="w-[30px] md:w-[40px] h-[30px] md:h-[40px]">
                   <Image
                     className="w-full h-full object-cover"
-                    src={item.icon}
-                    alt="about"
+                    src={item.iconImage}
+                    alt="icon"
                     width={40}
                     height={40}
                   />
                 </div>
 
                 <p
-                  className={`text-[14px] md:text-[18px] leading-[115%]
-                  ${
+                  className={`text-[14px] md:text-[18px] leading-[115%] ${
                     index === 0 ? 'font-medium md:font-normal' : 'font-normal'
                   }`}
                 >
-                  {item.text}
+                  {item.title}
                 </p>
               </div>
             ))}
@@ -90,14 +70,16 @@ const WhyUs = () => {
 
         {/* RIGHT IMAGE */}
         <div className="h-[550px] md:h-[638px] w-full lg:w-[363px] xl:w-[448px] overflow-hidden">
-          <Image
-            key={activeImage}
-            className="w-full h-full object-cover rounded-[200px_20px] transition-all duration-500 ease-in-out opacity-0 scale-95 animate-fadeIn"
-            src={images[activeImage]}
-            alt="about"
-            width={448}
-            height={628}
-          />
+          {whyus[activeImage] && (
+            <Image
+              key={whyus[activeImage].id}
+              className="w-full h-full object-cover rounded-[200px_20px] transition-all duration-500 ease-in-out opacity-0 scale-95 animate-fadeIn"
+              src={whyus[activeImage].mainImage}
+              alt="about"
+              width={448}
+              height={628}
+            />
+          )}
         </div>
       </div>
     </section>
