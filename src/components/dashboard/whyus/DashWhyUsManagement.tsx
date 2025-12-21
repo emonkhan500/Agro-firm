@@ -111,7 +111,7 @@ const DashWhyUsManagement = () => {
                     </button>
                     <button
                       onClick={() => handleDelete(item.id)}
-                      className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg"
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-red"
                     >
                       <TrashIcon className="h-4 w-4" />
                     </button>

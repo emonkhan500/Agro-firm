@@ -117,7 +117,7 @@ const DashCattleManagement = ({ initialCattles }: Props) => {
 
                     <button
                       onClick={() => handleDeleteCattle(item.id)}
-                      className="h-9 w-9 rounded-full bg-primary-bg flex items-center justify-center"
+                      className="h-9 w-9 rounded-full bg-red flex items-center justify-center"
                     >
                       <TrashIcon className="h-4 w-4 text-custom-red" />
                     </button>

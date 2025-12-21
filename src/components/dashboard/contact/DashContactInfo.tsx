@@ -49,7 +49,7 @@ const DashContactInfo = () => {
   return (
     <section className="   overflow-hidden">
       <div className="mx-3 md:mx-0 mt-16">
-        <h1 className="text-2xl font-semibold">Banner Management</h1>
+        <h1 className="text-2xl font-semibold">Masseges From Users</h1>
         <p className="mt-1 text-sm text-sidebar-text">
           Total Masseges:{' '}
           <span className="font-semibold text-lg">{contacts.length}</span>

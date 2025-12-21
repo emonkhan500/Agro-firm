@@ -16,7 +16,6 @@ export interface Review {
 }
 
 const Testimonial = ({ reviews }: { reviews: Review[] }) => {
-  console.log(reviews);
   const swiperRef = useRef<SwiperType | null>(null);
 
   return (

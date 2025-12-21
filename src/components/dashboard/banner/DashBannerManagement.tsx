@@ -178,7 +178,7 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
 
                     <button
                       onClick={() => handleDeleteBanner(banner.id)}
-                      className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg transition"
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-red transition"
                     >
                       <TrashIcon className="h-4 w-4 text-custom-red" />
                     </button>

@@ -1,10 +1,16 @@
 import GalleryDetailsView from '@/views/GalleryDetailsView';
 
-
-const page = () => {
+interface GalleryPageProps {
+  params: {
+    id: string;
+  };
+}
+const page =async ({params}:GalleryPageProps) => {
+    const {id}= await params
+    console.log(id);
     return (
         <>
-           <GalleryDetailsView/> 
+           <GalleryDetailsView params={id}/> 
         </>
     );
 };

@@ -1,45 +1,58 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import DangerousHtml from '../shared/DangerousHtml';
 
-interface GalleryImage {
-  id: number;
+/* ------------------ Interfaces ------------------ */
+
+export interface GalleryThumbnail {
   src: string;
-  alt: string;
+  rowSpan: string;
+  colSpan: string;
 }
 
-const GalleryDetails = () => {
-  const galleryImages: GalleryImage[] = [
-    {
-      id: 1,
-      src: '/gallary/gallary2.png',
-      alt: 'Milking equipment in dairy barn',
-    },
-    {
-      id: 2,
-      src: '/gallary/gallary3.png',
-      alt: 'Farmer caring for cattle',
-    },
-    {
-      id: 3,
-      src: '/gallary/gallary4.png',
-      alt: 'Veterinarian with tablet in cattle barn',
-    },
-  ];
+export interface GalleryItem {
+  id: string;
+  title: string;
+  coverImage: string;
+  thumbnails?: GalleryThumbnail[];
+  images: string[];
+  description?: string; 
+  created: string;
+}
+
+export interface GalleryItemProps {
+  id: string;
+  images: GalleryItem[];
+}
+
+
+
+const GalleryDetails = ({ id, images }: GalleryItemProps) => {
+  const detailItem = images.find((item) => item.id === id);
+
   const [mainImage, setMainImage] = useState<string>('/gallary/gallary2.png');
   const [mainImageAlt, setMainImageAlt] = useState<string>(
     'Veterinarian examining cattle in barn'
   );
 
-  const handleThumbnailClick = (image: GalleryImage) => {
-    setMainImage(image.src);
-    setMainImageAlt(image.alt);
-  };
+  /* Set default main image when detailItem changes */
+  useEffect(() => {
+    if (detailItem) {
+      setMainImage(detailItem.coverImage);
+      setMainImageAlt(detailItem.title);
+    }
+  }, [detailItem]);
+
+  if (!detailItem) {
+    return <p className="text-center py-20">Gallery item not found</p>;
+  }
 
   return (
     <section>
       <div className="wraper wraper px-5 md:px-10 xl:px-20 ">
+        {/* Main Image */}
         <div className="w-full xl:w-[1282px] h-full xl:h-[600px]">
           <Image
             height={600}
@@ -53,17 +66,19 @@ const GalleryDetails = () => {
 
         {/* Thumbnail Gallery */}
         <div className="max-w-[276px] md:max-w-[648px] relative z-10 mt-3 md:mt-6">
-          <div className="grid grid-cols-3 ">
-            {galleryImages.map((image) => (
+          <div className="grid grid-cols-3 gap-3">
+            {detailItem.images.map((img, index) => (
               <button
-                key={image.id}
-                onClick={() => handleThumbnailClick(image)}
-                className=""
+                key={index}
+                onClick={() => {
+                  setMainImage(img);
+                  setMainImageAlt(detailItem.title);
+                }}
               >
-                <div className="relative w-[84px] md:w-[200px] h-[84px] md:h-[200px] ">
+                <div className="relative w-[84px] md:w-[200px] h-[84px] md:h-[200px]">
                   <Image
-                    src={image.src || '/placeholder.svg'}
-                    alt={image.alt}
+                    src={img || '/placeholder.svg'}
+                    alt={detailItem.title}
                     height={200}
                     width={200}
                     className="object-cover w-full h-full"
@@ -73,29 +88,16 @@ const GalleryDetails = () => {
             ))}
           </div>
         </div>
-        <p className="text-[18px] font-semibold leading-[125%] mt-[50px]">
-          Title: Health check
+
+        {/* Title */}
+        <p className="text-[18px] font-medium leading-[125%] mt-[50px]">
+          <span className='text-[24px]'>Title:</span> {detailItem.title}
         </p>
-        <p className="text-[16px] font-normal leading-[118%] mt-[18px]">
-          Charolais is a highly prized breed of breeding cattle, known worldwide
-          for its robust physique, superior genetics, and excellent
-          adaptability. At 3 years of age and weighing 420 KG, this bull
-          represents the perfect combination of strength, health, and pedigree,
-          making it an ideal choice for advanced breeding programs. Every
-          Charolais at our farm is vet-checked, ensuring complete health,
-          disease resistance, and proper growth patterns, giving farmers peace
-          of mind and reliable quality.
-        </p>
-        <p className="text-[16px] font-normal leading-[120%]  mt-[18px]">
-          Raised under strict farm protocols, this Charolais enjoys balanced
-          nutrition, clean and spacious housing, and daily monitoring from our
-          experienced veterinary team. The careful attention to feeding, health
-          care, and exercise ensures that each animal grows to its full
-          potential, with strong bones, excellent muscle structure, and a calm
-          temperament. Its genetics are particularly valuable for producing
-          offspring with enhanced weight gain, improved meat quality, and high
-          survivability in various environmental conditions.
-        </p>
+
+        {/* Description (HTML) */}
+        <div className='w-full xl:w-[1282px]'>
+          <DangerousHtml props={detailItem.description || ''} />
+        </div>
       </div>
     </section>
   );

@@ -26,7 +26,7 @@ const CattleDetails = async ({ params }: { params: string }) => {
           />
         </div>
 
-        <div className="w-full xl:w-[1282px]  ">
+        <div className="w-full xl:w-[1282px]">
           <DangerousHtml props={cattle.description} />
         </div>
       </div>

@@ -75,7 +75,7 @@ const DashAboutManagement = () => {
                       <PencilIcon className="h-4 w-4" />
                     </button>
 
-                    <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg">
+                    <button className="flex h-9 w-9 items-center justify-center rounded-full bg-red">
                       <TrashIcon className="h-4 w-4" />
                     </button>
                   </div>
