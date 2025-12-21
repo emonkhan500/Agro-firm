@@ -1,4 +1,4 @@
-import Contact from '@/components/gallery/contact/Contact';
+import Contact from '@/components/contact/Contact';
 import ProductDetails from '@/components/product/ProductDetails';
 
 const ProductDetailsView = ({ params }: { params: string }) => {

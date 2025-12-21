@@ -86,9 +86,11 @@ const Header = () => {
             );
           })}
 
-          <button className="h-[39px] w-[145px] rounded-full font-bold text-[16px] bg-btn-bg hover:bg-btn-hover-bg">
+          <Link href="/contact">
+          <button className="hidden md:block h-[39px] w-[145px] rounded-full font-bold text-[16px] bg-btn-bg hover:bg-btn-hover-bg">
             CALL NOW
           </button>
+        </Link>
         </div>
       )}
     </header>

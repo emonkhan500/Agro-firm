@@ -17,11 +17,23 @@ import Link from 'next/link';
 const navigation = [
   { name: 'Home', href: '/dashboard', icon: HomeIcon },
   { name: 'Banner Management', href: '/banner-management', icon: UsersIcon },
-  { name: 'About Us Management', href: '/about-us-management', icon: FolderIcon },
   { name: 'Why Choose Us', href: '/why-choose-management', icon: CalendarIcon },
-  { name: 'Products Management', href: '/products-management', icon: DocumentDuplicateIcon },
-  { name: 'Gallery Management', href: '/gallery-management', icon: ChartPieIcon },
-  { name: 'Contact Information', href: '/contact-information', icon: ChartPieIcon },
+  {
+    name: 'Products Management',
+    href: '/products-management',
+    icon: DocumentDuplicateIcon,
+  },
+
+  {
+    name: 'Gallery Management',
+    href: '/gallery-management',
+    icon: ChartPieIcon,
+  },
+  {
+    name: 'Contact Information',
+    href: '/contact-information',
+    icon: ChartPieIcon,
+  },
   { name: 'Cattle Management', href: '/cattle-management', icon: ChartPieIcon },
   { name: 'Review Management', href: '/review-management', icon: ChartPieIcon },
 ];

@@ -1,11 +1,10 @@
-import Contact from '@/components/gallery/contact/Contact';
+import Contact from '@/components/contact/Contact';
 import CattleDetails from '@/components/outcattle/CattleDetails';
-
 
 const CattleDetailsView = ({ params }: { params: string }) => {
   return (
     <>
-      <CattleDetails params={params}/>
+      <CattleDetails params={params} />
       <Contact />
     </>
   );

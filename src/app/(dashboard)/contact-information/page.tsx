@@ -1,7 +1,9 @@
+import DashContactManageViews from "@/views/dashboard/DashContactManageViews";
+
 const page = () => {
   return (
     <>
-      <h1>Contact Information</h1>
+    <DashContactManageViews/>
     </>
   );
 };

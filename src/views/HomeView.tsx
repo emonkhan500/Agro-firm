@@ -4,7 +4,7 @@ import { getReviews } from '@/app/actions/review.actions';
 import { getWhyUs } from '@/app/actions/whyus.action';
 import AboutUs from '@/components/home/AboutUs';
 import Banner from '@/components/home/Banner';
-import Contact from '@/components/home/Contact';
+import Contact from '@/components/home/Contacts';
 import Gallary from '@/components/home/Gallary';
 import Premium from '@/components/home/Premium';
 import Products from '@/components/home/Products';

@@ -107,7 +107,7 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
       <div className="relative overflow-x-auto rounded-xl bg-white shadow-sm border border-border-gray">
         <table className="min-w-[1100px] w-full border-collapse text-sm">
           <thead>
-            <tr className="border-b border-border-gray text-sidebar-text font-semibold">
+            <tr className="border-b  border-border-gray text-sidebar-text font-semibold">
               <th className="px-6 py-4 w-[80px] text-left">Order</th>
               <th className="px-6 py-4 w-[140px] text-left">Banner</th>
               <th className="px-6 py-4 text-left">Title</th>

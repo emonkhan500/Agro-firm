@@ -1,11 +1,12 @@
-import MediaLibraryViews from '@/views/dashboard/MediaLibraryViews';
+import DashGalleryViews from "@/views/dashboard/DashGalleryViews";
+
 
 const page = () => {
-  return (
-    <>
-      <MediaLibraryViews />
-    </>
-  );
+    return (
+        <>
+            <DashGalleryViews/>
+        </>
+    );
 };
 
 export default page;

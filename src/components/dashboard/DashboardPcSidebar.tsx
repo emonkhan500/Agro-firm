@@ -18,11 +18,7 @@ const DashboardPcSidebar = () => {
   const navigation = [
     { name: 'Home', href: '/dashboard', icon: HomeIcon },
     { name: 'Banner Management', href: '/banner-management', icon: UsersIcon },
-    {
-      name: 'About Us Management',
-      href: '/about-us-management',
-      icon: FolderIcon,
-    },
+ 
     {
       name: 'Why Choose Us',
       href: '/why-choose-management',
@@ -33,6 +29,7 @@ const DashboardPcSidebar = () => {
       href: '/products-management',
       icon: DocumentDuplicateIcon,
     },
+   
     {
       name: 'Gallery Management',
       href: '/gallery-management',
