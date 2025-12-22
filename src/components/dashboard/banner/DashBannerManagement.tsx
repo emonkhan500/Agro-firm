@@ -1,13 +1,11 @@
 'use client';
-
 import { useState } from 'react';
 import DashBannerModal, { BannerPayload } from './DashBannerModal';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { createBanner, deleteBanner } from '@/app/actions/banner.action';
 import Swal from 'sweetalert2';
 import DashUpdateBannerModal from './DashUpdateBannerModal';
-
-// Server payload type (no imageFile)
+import Image from 'next/image';
 type CreateBannerPayload = {
   title: string;
   description: string;
@@ -15,29 +13,24 @@ type CreateBannerPayload = {
   buttonText: string;
   buttonLink: string;
 };
-
-// Banner type returned from server
 interface Banner extends CreateBannerPayload {
   id: string;
   order: number;
   created: string;
-  image: string; // URL from server
+  image: string;
 }
-
 interface Props {
   initialBanners: Banner[];
 }
-
 const DashBannerManagement = ({ initialBanners }: Props) => {
   const [openModal, setOpenModal] = useState(false);
   const [banners, setBanners] = useState<Banner[]>(initialBanners);
   const [editBanner, setEditBanner] = useState<Banner | null>(null);
 
-  // Create banner
+  // Create
   const handleAddBanner = async (banner: BannerPayload) => {
     const formData = new FormData();
     formData.append('file', banner.imageFile);
-
     const payload: CreateBannerPayload = {
       title: banner.title,
       description: banner.description,
@@ -45,13 +38,12 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
       buttonLink: banner.buttonLink,
       status: banner.status,
     };
-
     const savedBanner = await createBanner(formData, payload);
     setBanners((prev) => [...prev, savedBanner]);
     setOpenModal(false);
   };
 
-  // Delete banner
+  // Delete
   const handleDeleteBanner = async (id: string) => {
     const result = await Swal.fire({
       title: 'Are you sure?',
@@ -62,11 +54,8 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!',
     });
-
     if (!result.isConfirmed) return;
-
     const deleted = await deleteBanner(id);
-
     if (deleted) {
       setBanners((prev) => prev.filter((b) => b.id !== id));
       await Swal.fire({
@@ -94,7 +83,6 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
             <span className="font-semibold">{banners.length}</span> banners
           </p>
         </div>
-
         <button
           onClick={() => setOpenModal(true)}
           className="h-12 rounded-md bg-active-nav px-6 text-sm font-medium text-white mx-3 md:mx-10"
@@ -102,7 +90,6 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
           + Create New Banner
         </button>
       </div>
-
       {/* Table */}
       <div className="relative overflow-x-auto rounded-xl bg-white shadow-sm border border-border-gray">
         <table className="min-w-[1100px] w-full border-collapse text-sm">
@@ -117,7 +104,6 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
               <th className="px-6 py-4 w-[140px] text-center">Actions</th>
             </tr>
           </thead>
-
           <tbody>
             {banners.length === 0 && (
               <tr>
@@ -129,44 +115,38 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
                 </td>
               </tr>
             )}
-
             {banners.map((banner) => (
               <tr
                 key={banner.id}
                 className="border-b border-border-gray hover:bg-gray-50 transition"
               >
                 <td className="px-6 py-4 font-medium">{banner.order + 1}</td>
-
                 <td className="px-6 py-4">
-                  <div className="h-14 w-24 overflow-hidden rounded-md">
-                    <img
+                  <div className="relative h-14 w-24 overflow-hidden rounded-md">
+                    <Image
+                      fill
                       src={banner.image}
                       alt="banner"
                       className="h-full w-full object-cover"
                     />
                   </div>
                 </td>
-
                 <td className="px-6 py-4 font-medium text-sidebar-text max-w-[180px] truncate">
                   {banner.title}
                 </td>
-
                 <td className="px-6 py-4 max-w-[260px]">
                   <p className="line-clamp-2 text-sidebar-text">
                     {banner.description}
                   </p>
                 </td>
-
                 <td className="px-6 py-4">
                   <span className="w-fit rounded-full bg-active-nav px-3 py-1 text-xs font-medium text-white">
                     {banner.status}
                   </span>
                 </td>
-
                 <td className="px-6 py-4 text-sidebar-text">
                   {banner.created}
                 </td>
-
                 <td className="px-6 py-4">
                   <div className="flex justify-center gap-2">
                     <button
@@ -175,7 +155,6 @@ const DashBannerManagement = ({ initialBanners }: Props) => {
                     >
                       <PencilIcon className="h-4 w-4" />
                     </button>
-
                     <button
                       onClick={() => handleDeleteBanner(banner.id)}
                       className="flex h-9 w-9 items-center justify-center rounded-full bg-red transition"

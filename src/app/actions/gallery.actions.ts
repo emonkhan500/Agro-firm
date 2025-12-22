@@ -1,8 +1,6 @@
 'use server';
-
-import fs from "fs";
-import path from "path";
-
+import fs from 'fs';
+import path from 'path';
 export interface GalleryItem {
   id: string;
   title: string;
@@ -18,13 +16,12 @@ export interface GalleryItem {
 }
 
 const sizeMap = {
-  small: { rowSpan: "row-span-1", colSpan: "col-span-1" },
-  medium: { rowSpan: "row-span-2", colSpan: "col-span-2" },
-  large: { rowSpan: "row-span-3", colSpan: "col-span-3" },
+  small: { rowSpan: 'row-span-1', colSpan: 'col-span-1' },
+  medium: { rowSpan: 'row-span-2', colSpan: 'col-span-2' },
+  large: { rowSpan: 'row-span-3', colSpan: 'col-span-3' },
 };
-
-const galleryDir = path.join(process.cwd(), "public/gallery");
-const jsonPath = path.join(galleryDir, "gallery.json");
+const galleryDir = path.join(process.cwd(), 'public/gallery');
+const jsonPath = path.join(galleryDir, 'gallery.json');
 
 const ensureDir = () => {
   if (!fs.existsSync(galleryDir)) fs.mkdirSync(galleryDir, { recursive: true });
@@ -32,7 +29,7 @@ const ensureDir = () => {
 
 const readJson = (): GalleryItem[] => {
   if (!fs.existsSync(jsonPath)) return [];
-  return JSON.parse(fs.readFileSync(jsonPath, "utf-8"));
+  return JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
 };
 
 const writeJson = (data: GalleryItem[]) => {
@@ -48,31 +45,31 @@ const saveFile = async (file: File, folder: string) => {
   return `/gallery/${folder}/${fileName}`;
 };
 
-// ---------------- CREATE ----------------
+// CREATE
 export async function createGalleryItem(payload: {
   title: string;
   coverImage?: File;
   thumbnails?: File[];
   images?: File[];
   description?: string;
-  size: "small" | "medium" | "large";
+  size: 'small' | 'medium' | 'large';
 }) {
   ensureDir();
   const data = readJson();
-
-  const cover = payload.coverImage ? await saveFile(payload.coverImage, "covers") : "";
-
+  const cover = payload.coverImage
+    ? await saveFile(payload.coverImage, 'covers')
+    : '';
   const thumbs = payload.thumbnails
     ? await Promise.all(
         payload.thumbnails.map(async (f) => ({
-          src: await saveFile(f, "thumbnails"),
+          src: await saveFile(f, 'thumbnails'),
           ...sizeMap[payload.size],
         }))
       )
     : [];
 
   const images = payload.images
-    ? await Promise.all(payload.images.map((f) => saveFile(f, "images")))
+    ? await Promise.all(payload.images.map((f) => saveFile(f, 'images')))
     : [];
 
   const item: GalleryItem = {
@@ -89,19 +86,16 @@ export async function createGalleryItem(payload: {
   writeJson(data);
   return item;
 }
-
-// ---------------- DELETE ----------------
+//  DELETE
 export async function deleteGalleryItem(id: string) {
   const data = readJson();
-  writeJson(data.filter(i => i.id !== id));
+  writeJson(data.filter((i) => i.id !== id));
 }
-
-// ---------------- GET ----------------
+// GET
 export async function getGalleryList() {
   return readJson();
 }
-
-// ---------------- UPDATE ----------------
+// UPDATE
 export async function updateGalleryItem(
   id: string,
   payload: {
@@ -110,33 +104,30 @@ export async function updateGalleryItem(
     thumbnails?: File[];
     images?: File[];
     description?: string;
-    size?: "small" | "medium" | "large";
+    size?: 'small' | 'medium' | 'large';
   }
 ) {
   ensureDir();
   const data = readJson();
-
-  const index = data.findIndex(item => item.id === id);
-  if (index === -1) throw new Error("Item not found");
-
+  const index = data.findIndex((item) => item.id === id);
+  if (index === -1) throw new Error('Item not found');
   const item = data[index];
 
   let cover = item.coverImage;
   if (payload.coverImage) {
-    cover = await saveFile(payload.coverImage, "covers");
+    cover = await saveFile(payload.coverImage, 'covers');
   }
-
   const thumbs = payload.thumbnails
     ? await Promise.all(
-        payload.thumbnails.map(async f => ({
-          src: await saveFile(f, "thumbnails"),
-          ...sizeMap[payload.size || "small"],
+        payload.thumbnails.map(async (f) => ({
+          src: await saveFile(f, 'thumbnails'),
+          ...sizeMap[payload.size || 'small'],
         }))
       )
     : item.thumbnails;
 
   const images = payload.images
-    ? await Promise.all(payload.images.map(f => saveFile(f, "images")))
+    ? await Promise.all(payload.images.map((f) => saveFile(f, 'images')))
     : item.images;
 
   data[index] = {
@@ -146,7 +137,7 @@ export async function updateGalleryItem(
     thumbnails: thumbs,
     images: images,
     description: payload.description ?? item.description,
-    created: item.created, // keep original created date
+    created: item.created,
   };
 
   writeJson(data);

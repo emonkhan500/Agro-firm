@@ -1,5 +1,4 @@
 'use server';
-
 import path from 'path';
 import fs from 'fs/promises';
 import { revalidatePath } from 'next/cache';
@@ -40,7 +39,7 @@ async function writeJSON(data: Banner[]) {
   await fs.writeFile(JSON_FILE, JSON.stringify(data, null, 2));
 }
 
-/* -------------------- CREATE -------------------- */
+// create
 export async function createBanner(
   formData: FormData,
   payload: {
@@ -55,15 +54,12 @@ export async function createBanner(
 
   const file = formData.get('file') as File;
   if (!file) throw new Error('No file provided');
-
   const buffer = Buffer.from(await file.arrayBuffer());
   const fileName = `${Date.now()}-${file.name}`;
   const filePath = path.join(BANNER_DIR, fileName);
   await fs.writeFile(filePath, buffer);
-
   const image = `/banner/${fileName}`;
   const banners = await readJSON();
-
   const newBanner: Banner = {
     ...payload,
     id: Date.now().toString(),
@@ -77,35 +73,28 @@ export async function createBanner(
 
   revalidatePath('/dashboard/banner-management');
   revalidatePath('/');
-
   return newBanner;
 }
-
-/* -------------------- READ -------------------- */
+// READ
 export async function getBanners(): Promise<Banner[]> {
   return await readJSON();
 }
-
-/* -------------------- DELETE -------------------- */
+// DELETE
 export async function deleteBanner(id: string): Promise<Banner | null> {
   const banners = await readJSON();
-  const index = banners.findIndex(b => b.id === id);
+  const index = banners.findIndex((b) => b.id === id);
   if (index === -1) return null;
-
   const [deleted] = banners.splice(index, 1);
-
   const filePath = path.join(process.cwd(), 'public', deleted.image);
   await fs.unlink(filePath).catch(() => {});
-
   const updatedBanners = banners.map((b, i) => ({ ...b, order: i }));
   await writeJSON(updatedBanners);
-
   revalidatePath('/dashboard/banner-management');
   revalidatePath('/');
 
   return deleted;
 }
-/* -------------------- UPDATE -------------------- */
+// UPDATE
 export async function updateBanner(
   id: string,
   formData: FormData,
@@ -117,11 +106,9 @@ export async function updateBanner(
   await ensureDir();
 
   const banners = await readJSON();
-  const index = banners.findIndex(b => b.id === id);
+  const index = banners.findIndex((b) => b.id === id);
   if (index === -1) return null;
-
   let image = banners[index].image;
-
   const file = formData.get('file') as File | null;
 
   if (file) {
@@ -134,7 +121,6 @@ export async function updateBanner(
     await fs.writeFile(path.join(BANNER_DIR, fileName), buffer);
     image = `/banner/${fileName}`;
   }
-
   banners[index] = {
     ...banners[index],
     title: payload.title,
@@ -143,9 +129,7 @@ export async function updateBanner(
   };
 
   await writeJSON(banners);
-
   revalidatePath('/dashboard/banner-management');
   revalidatePath('/');
-
   return banners[index];
 }

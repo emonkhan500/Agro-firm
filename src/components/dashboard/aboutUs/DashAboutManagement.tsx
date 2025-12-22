@@ -1,8 +1,6 @@
 'use client';
-
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
-
 import DashAboutUsModal, { WhyUsPayload } from './DashAboutUsModal';
 
 const DashAboutManagement = () => {
@@ -24,10 +22,8 @@ const DashAboutManagement = () => {
           </p>
         </div>
 
-        <button
-          onClick={() => setOpenModal(true)}
-          className="rounded-md bg-active-nav  h-12 text-sm text-white px-10 mx-10"
-        >
+        <button onClick={() => setOpenModal(true)}
+          className="rounded-md bg-active-nav  h-12 text-sm text-white px-10 mx-10" >
           + Add New About Us
         </button>
       </div>
@@ -43,14 +39,12 @@ const DashAboutManagement = () => {
               <th className="px-6 py-4 w-[150px]">Actions</th>
             </tr>
           </thead>
-
           <tbody>
             {aboutUsList.length === 0 && (
               <tr>
                 <td
                   colSpan={4}
-                  className="px-6 py-6 text-center text-sm text-sidebar-text"
-                >
+                  className="px-6 py-6 text-center text-sm text-sidebar-text">
                   No data added yet.
                 </td>
               </tr>
@@ -59,22 +53,17 @@ const DashAboutManagement = () => {
             {aboutUsList.map((item, index) => (
               <tr
                 key={item.id}
-                className="border-b border-border-gray hover:bg-gray-50"
-              >
+                className="border-b border-border-gray hover:bg-gray-50">
                 <td className="px-6 py-4">{index + 1}</td>
-
                 <td className="px-6 py-4 font-medium">{item.heading}</td>
-
                 <td className="px-6 py-4 text-sm text-sidebar-text">
                   {item.description}
                 </td>
-
                 <td className="px-6 py-4">
                   <div className="flex gap-2">
                     <button className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-bg">
                       <PencilIcon className="h-4 w-4" />
                     </button>
-
                     <button className="flex h-9 w-9 items-center justify-center rounded-full bg-red">
                       <TrashIcon className="h-4 w-4" />
                     </button>

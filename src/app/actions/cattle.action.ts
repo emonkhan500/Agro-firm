@@ -1,5 +1,4 @@
 'use server';
-
 import fs from 'fs';
 import path from 'path';
 import { revalidatePath } from 'next/cache';
@@ -23,7 +22,6 @@ function ensureDir() {
 
 export async function getCattles(): Promise<Cattle[]> {
   ensureDir();
-
   if (!fs.existsSync(jsonPath)) {
     fs.writeFileSync(jsonPath, JSON.stringify([]));
     return [];
@@ -32,20 +30,17 @@ export async function getCattles(): Promise<Cattle[]> {
   return JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
 }
 
-/* ---------- CREATE ---------- */
+// CREATE
 export async function createCattle(formData: FormData) {
   ensureDir();
-
   const title = formData.get('title') as string;
   const description = formData.get('description') as string;
   const imageFile = formData.get('image') as File;
 
   if (!title || !description || !imageFile) return;
-
   const buffer = Buffer.from(await imageFile.arrayBuffer());
   const imageName = `${Date.now()}-${imageFile.name}`;
   fs.writeFileSync(path.join(cattleDir, imageName), buffer);
-
   const cattles = await getCattles();
 
   cattles.push({
@@ -60,15 +55,13 @@ export async function createCattle(formData: FormData) {
   revalidatePath('/dashboard/cattles');
 }
 
-/* ---------- UPDATE ---------- */
+//  UPDATE
 export async function updateCattle(id: number, formData: FormData) {
   try {
     ensureDir();
-
     const title = formData.get('title') as string;
     const description = formData.get('description') as string;
     const imageFile = formData.get('image') as File | null;
-
     const cattles = await getCattles();
     const index = cattles.findIndex((c) => c.id === id);
     if (index === -1) return false;
@@ -101,12 +94,11 @@ export async function updateCattle(id: number, formData: FormData) {
   }
 }
 
-/* ---------- DELETE ---------- */
+//  DELETE
 export async function deleteCattle(id: number) {
   const cattles = await getCattles();
   const cattle = cattles.find((c) => c.id === id);
   if (!cattle) return false;
-
   const imgPath = path.join(process.cwd(), 'public', cattle.image);
   if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
 
@@ -118,7 +110,6 @@ export async function deleteCattle(id: number) {
       2
     )
   );
-
-  revalidatePath('/dashboard/cattles');
+   revalidatePath('/dashboard/cattles');
   return true;
 }

@@ -12,7 +12,7 @@ export interface BannerPayload {
   status: 'active' | 'inactive';
   buttonText: string;
   buttonLink: string;
-  imageFile: File; // only client-side
+  imageFile: File; 
 }
 
 interface Props {
