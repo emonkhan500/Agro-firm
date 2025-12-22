@@ -44,7 +44,7 @@ const Header = () => {
               <Link
                 key={item.path}
                 href={item.path}
-                className={`text-[16px] font-medium transition-colors
+                className={`text-[16px] font-medium transition-transform duration-200 ease-out hover:scale-105
                 ${
                   isActive ? 'text-active-nav underline underline-offset-4' : ''
                 }`}
@@ -55,7 +55,10 @@ const Header = () => {
           })}
         </nav>
         <Link href="/contact">
-          <button className="hidden md:block h-[39px] w-[145px] rounded-full font-bold text-[16px] bg-btn-bg hover:bg-btn-hover-bg">
+          <button
+            className="hidden md:block h-[39px] w-[145px] transition duration-500 
+           text-white rounded-full font-bold text-[16px] bg-btn-bg hover:bg-btn-hover-bg"
+          >
             CALL NOW
           </button>
         </Link>
@@ -87,10 +90,10 @@ const Header = () => {
           })}
 
           <Link href="/contact">
-          <button className="hidden md:block h-[39px] w-[145px] rounded-full font-bold text-[16px] bg-btn-bg hover:bg-btn-hover-bg">
-            CALL NOW
-          </button>
-        </Link>
+            <button className="hidden md:block h-[39px] w-[145px] rounded-full font-bold text-[16px] bg-btn-bg hover:bg-btn-hover-bg">
+              CALL NOW
+            </button>
+          </Link>
         </div>
       )}
     </header>

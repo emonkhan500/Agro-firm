@@ -28,7 +28,6 @@ const Banner = ({ banners }: Props) => {
     >
       {banners.map((slide) => (
         <SwiperSlide key={slide.id}>
-          {/* 🔴 DESIGN START (UNCHANGED) */}
           <div className="w-full h-[260px] md:h-[500px] xl:h-[600px] relative overflow-hidden">
             <div
               className="absolute inset-0 bg-cover bg-center"
@@ -50,7 +49,7 @@ const Banner = ({ banners }: Props) => {
                 <div className="flex gap-2">
                   <Link
                     href={slide.buttonLink}
-                    className="mt-2 md:mt-5 w-[120px] md:w-[202px] h-6 md:h-[39px] text-primary-text bg-btn-bg flex items-center justify-center rounded-full text-[10px] md:text-[16px]"
+                    className="mt-2 md:mt-5 w-[120px] md:w-[202px] h-6 md:h-[39px] text-primary-text hover:text-white bg-btn-bg duration-400 hover:bg-btn-hover-bg transition delay-100 flex items-center justify-center rounded-full text-[10px] md:text-[16px]"
                   >
                     {slide.buttonText}
                   </Link>
@@ -65,7 +64,7 @@ const Banner = ({ banners }: Props) => {
               </div>
             </div>
           </div>
-          {/* 🔴 DESIGN END */}
+       
         </SwiperSlide>
       ))}
     </Swiper>

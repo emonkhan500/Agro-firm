@@ -4,102 +4,86 @@ import Link from 'next/link';
 const Footer = () => {
   return (
     <footer className="bg-primary-bg mt-10.5 md:mt-25">
-      <div className="wraper px-5 lg:px-10  xl:px-[247px] 2xl:px-[247px] py-[42px] lg:py-[52px]">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-20 xl:gap-40">
-          <div className="flex flex-col items-start">
-            <div className="flex">
-              <Link href="/" className="h-[120px] w-[120px]">
-                <Image
-                  className="w-full h-full object-cover cursor-pointer"
-                  src="/logo.png"
-                  alt="Logo"
-                  width={120}
-                  height={120}
-                />
-              </Link>
-            </div>
+      {/* Top Section */}
+      <div className="wraper px-5 lg:px-10 xl:px-20  ">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 xl:gap-28 border-b border-sidebar-text py-10 md:py-[60px]">
 
-            {/* Description */}
-            <p className="text-[12px] mb-2.5 leading-[120%] max-w-[192px]">
+          {/* Logo + Description */}
+          <div>
+            <Link
+              href="/"
+              className="block h-[90px] w-[54px] transition-transform duration-200 hover:scale-[1.09]"
+            >
+              <Image
+                src="/logo.png"
+                alt="Logo"
+                width={120}
+                height={120}
+                className="w-full h-full object-cover"
+              />
+            </Link>
+
+            <p className="text-[12px] leading-[140%] max-w-[220px] mt-2 mb-4">
               We closely monitor each animal’s health, behavior, and activity
               every day using trained.
             </p>
 
-            {/* Social Icons */}
             <div className="flex gap-6">
-              <Image src="/icon/whatsapp.png" alt="whatsapp"  width={24} height={24} className="cursor-pointer"/>
-              <Image src="/icon/fb.png" alt="facebook" width={24} height={24} className="cursor-pointer"/>
-              <Image src="/icon/x.png" alt="x" width={24} height={24} className="cursor-pointer"/>
+              <Image src="/icon/whatsapp.png" alt="whatsapp" width={22} height={22} className="cursor-pointer hover:scale-110 transition" />
+              <Image src="/icon/fb.png" alt="facebook" width={22} height={22} className="cursor-pointer hover:scale-110 transition" />
+              <Image src="/icon/x.png" alt="x" width={22} height={22} className="cursor-pointer hover:scale-110 transition" />
             </div>
           </div>
 
-          {/* Middle Section - Quick Links */}
-          <div className="md:ml-[88px]">
-            <h3 className="text-[18px] font-medium mb-5 text-primary-text leading-[122%]">
-              Quick Links
+          {/* Address */}
+          <div>
+            <h3 className="text-[18px] font-medium mb-5 text-primary-text">
+              Address
             </h3>
-            <ul className="space-y-[5px]">
+            <ul className="space-y-3 text-[14px] leading-[140%]">
               <li>
-                <a
-                  href="/about-us"
-                  className="text-[14px] font-normal leading-[120%]"
-                >
-                  About Us
-                </a>
+                <p className="font-medium">Head Office</p>
+                <p>New York</p>
               </li>
               <li>
-                <a
-                  href="/cattle"
-                  className="text-[14px] font-normal leading-[120%]"
-                >
-                  Our Cattle
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/product"
-                  className="text-[14px] font-normal leading-[120%]"
-                >
-                  Products
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/gallery"
-                  className="text-[14px] font-normal leading-[120%]"
-                >
-                  Gallery
-                </a>
+                <p className="font-medium">Branch Office</p>
+                <p>Sidney, 1200</p>
               </li>
             </ul>
           </div>
 
-          {/* Right Section - Brand */}
-          <div className="md:ml-[82px]">
-            <h3 className="text-[18px] font-medium mb-5 text-primary-text leading-[122%]">
-              Brand
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-[18px] font-medium mb-5 text-primary-text">
+              Quick Links
             </h3>
-            <ul className="space-y-[5px]">
-              <li>
-                <a
-                  href="/terms"
-                  className="text-[14px] font-normal leading-[120%]"
-                >
-                  Terms & Condition
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-[14px] font-normal leading-[120%]">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-[14px] font-normal leading-[120%]">
-                  FAQ
-                </a>
-              </li>
+            <ul className="space-y-[6px] text-[14px]">
+              <li><Link href="/about-us" className="hover:text-active-nav">About Us</Link></li>
+              <li><Link href="/cattle" className="hover:text-active-nav">Our Cattle</Link></li>
+              <li><Link href="/product" className="hover:text-active-nav">Products</Link></li>
+              <li><Link href="/gallery" className="hover:text-active-nav">Gallery</Link></li>
             </ul>
           </div>
+
+          {/* Brand */}
+          <div>
+            <h3 className="text-[18px] font-medium mb-5 text-primary-text">
+              Brand
+            </h3>
+            <ul className="space-y-[6px] text-[14px]">
+              <li><Link href="/terms" className="hover:text-active-nav">Terms & Condition</Link></li>
+              <li><Link href="/privacy-policy" className="hover:text-active-nav">Privacy Policy</Link></li>
+              <li><Link href="/faq" className="hover:text-active-nav">FAQ</Link></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Bottom Section */}
+      <div className="wraper px-5 lg:px-10 xl:px-[247px]">
+        <div className=" py-4 text-center text-[12px]">
+          © 2025 Your Company Name. All rights reserved.
         </div>
       </div>
     </footer>

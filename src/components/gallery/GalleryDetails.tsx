@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import DangerousHtml from '../shared/DangerousHtml';
 
-/* ------------------ Interfaces ------------------ */
+
 
 export interface GalleryThumbnail {
   src: string;
@@ -37,7 +37,7 @@ const GalleryDetails = ({ id, images }: GalleryItemProps) => {
     'Veterinarian examining cattle in barn'
   );
 
-  /* Set default main image when detailItem changes */
+  
   useEffect(() => {
     if (detailItem) {
       setMainImage(detailItem.coverImage);
@@ -52,8 +52,8 @@ const GalleryDetails = ({ id, images }: GalleryItemProps) => {
   return (
     <section>
       <div className="wraper wraper px-5 md:px-10 xl:px-20 ">
-        {/* Main Image */}
-        <div className="w-full xl:w-[1282px] h-full xl:h-[600px]">
+        
+        <div className="w-full xl:w-[1282px] h-full xl:h-[600px] transition-transform duration-400 ease-out hover:scale-[1.01]">
           <Image
             height={600}
             width={1282}
@@ -75,7 +75,7 @@ const GalleryDetails = ({ id, images }: GalleryItemProps) => {
                   setMainImageAlt(detailItem.title);
                 }}
               >
-                <div className="relative w-[84px] md:w-[200px] h-[84px] md:h-[200px]">
+                <div className="relative w-[84px] md:w-[200px] h-[84px] md:h-[200px] transition-transform duration-400 ease-out hover:scale-[1.03]">
                   <Image
                     src={img || '/placeholder.svg'}
                     alt={detailItem.title}

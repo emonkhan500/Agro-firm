@@ -6,6 +6,7 @@ import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import { useRef } from 'react';
 import Image from 'next/image';
+import { Autoplay } from 'swiper/modules';
 export interface Review {
   id: number;
   name: string;
@@ -37,13 +38,15 @@ const Testimonial = ({ reviews }: { reviews: Review[] }) => {
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           slidesPerView={1}
           spaceBetween={20}
+          modules={[Autoplay]}
+          autoplay={{ delay: 1500, disableOnInteraction: false }}
           loop={true}
           className="mt-3 md:mt-5"
         >
           {reviews.map((item, index) => (
             <SwiperSlide key={index}>
-              <div className="flex flex-col md:flex-row gap-2.5 md:gap-5.5 bg-primary-bg px-10 xl:px-[142px] pt-9 md:pt-9 pb-4 md:pb-9 items-center">
-                <div className="w-[200px] h-[200px]">
+              <div className="flex flex-col md:flex-row gap-2.5 md:gap-5.5 bg-primary-bg hover:bg-red px-10 xl:px-[142px] pt-9 md:pt-9 pb-4 md:pb-9 items-center">
+                <div className="w-[200px] h-[200px] transition-transform duration-500 ease-out hover:scale-[1.03]">
                   <Image
                     src={item.image}
                     alt={item.name}
@@ -73,11 +76,11 @@ const Testimonial = ({ reviews }: { reviews: Review[] }) => {
         </Swiper>
 
         {/* Left / Right Button */}
-        <div className="absolute top-15 md:top-24 xl:top-17 right-5 md:right-21 flex gap-6">
+        <div className="absolute top-15 md:top-24 xl:top-17 right-5 md:right-21 flex justify-center gap-2 md:gap-4">
           <button
             type="button"
             onClick={() => swiperRef.current?.slidePrev()}
-            className="w-5 md:w-[42px] h-5 md:h-[42px]"
+            className="w-[42px] h-[42px]"
           >
             <Left />
           </button>

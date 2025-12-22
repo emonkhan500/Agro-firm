@@ -7,7 +7,6 @@ const CattleDetails = async ({ params }: { params: string }) => {
   const id = Number(params);
 
   const cattle = cattles.find((item) => item.id === id);
-  console.log(cattle);
 
   if (!cattle) {
     return <p className="text-center mt-10">Product not found</p>;
@@ -18,7 +17,7 @@ const CattleDetails = async ({ params }: { params: string }) => {
       <div className="wraper wraper px-5 md:px-10 xl:px-20 mt-10">
         <div className="w-full max-w-[1282px] h-[600px] mx-auto">
           <Image
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-fit hover:scale-[1.02] duration-500 "
             src={cattle.image}
             alt="about"
             width={1282}

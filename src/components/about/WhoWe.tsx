@@ -4,7 +4,7 @@ const WhoWe = () => {
   return (
     <section className="mt-10 md:mt-25">
       <div className="wraper px-5 lg:px-20 flex flex-col lg:flex-row items-center gap-5">
-        <div className="w-full lg:w-1/2 xl:max-w-[810px]">
+        <div className="w-full lg:w-1/2 xl:max-w-[810px] transition-opacity duration-500 ease-out hover:opacity-95">
           <p className="text-[20px] md:text-[32px] font-semibold md:font-medium leading-[120%] mb-2.5 md:mb-5 text-primary-text">
             Who we are
           </p>
@@ -28,13 +28,14 @@ const WhoWe = () => {
             cattle.
           </p>
         </div>
-        <div className="w-full lg:w-1/2 h-[340px] md:h-full">
+
+        <div className="w-full lg:w-1/2 h-[340px] md:h-full overflow-hidden rounded-2xl">
           <Image
             src="/aboutus/truck.png"
             alt="about"
             width={450}
             height={380}
-            className="w-full h-full"
+            className="w-full h-full object-cover transition-transform duration-500 ease-out hover:scale-[1.03]"
           />
         </div>
       </div>

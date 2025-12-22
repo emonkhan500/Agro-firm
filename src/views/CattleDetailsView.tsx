@@ -4,6 +4,7 @@ import CattleDetails from '@/components/outcattle/CattleDetails';
 const CattleDetailsView = ({ params }: { params: string }) => {
   return (
     <>
+    
       <CattleDetails params={params} />
       <Contact />
     </>

@@ -3,20 +3,21 @@
 import { createContact } from '@/app/actions/contact.actions';
 import { Inbox, Location, Phone } from '@/icon';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import Link from 'next/link';
 import * as Yup from 'yup';
 
 
-/* ================= VALIDATION ================= */
+
 const ContactSchema = Yup.object({
-  name: Yup.string().required('Name is required'),
+  name: Yup.string().required('Name is required *'),
   email: Yup.string()
-    .email('Invalid email')
-    .required('Email is required'),
-  phone: Yup.string().required('Phone is required'),
-  message: Yup.string().required('Message is required'),
+    .email('Invalid email *')
+    .required('Email is required *'),
+  phone: Yup.string(),
+  message: Yup.string().required('Message is required *'),
 });
 
-/* ================= TYPES ================= */
+
 interface ContactFormValues {
   name: string;
   email: string;
@@ -24,7 +25,7 @@ interface ContactFormValues {
   message: string;
 }
 
-/* ================= COMPONENT ================= */
+
 const Contact = () => {
   const initialValues: ContactFormValues = {
     name: '',
@@ -67,12 +68,12 @@ const Contact = () => {
               <Field
                 name="name"
                 type="text"
-                className="w-full border border-contact-border mb-[16px] p-[11px] md:p-[17px] rounded focus:outline-none"
+                className="w-full border border-contact-border hover:border-active-nav mb-[16px] duration-300 p-[11px] md:p-[17px] rounded focus:outline-none"
               />
               <ErrorMessage
                 name="name"
                 component="p"
-                className="text-btn-bg text-sm mb-2"
+                className="text-custom-red text-sm mb-2 -mt-4"
               />
 
               {/* EMAIL */}
@@ -82,12 +83,12 @@ const Contact = () => {
               <Field
                 name="email"
                 type="email"
-                className="w-full border border-contact-border p-[12px] md:p-[17px] rounded focus:outline-none mb-[14px]"
+                className="w-full border border-contact-border hover:border-active-nav duration-300 p-[12px] md:p-[17px] rounded focus:outline-none mb-[14px]"
               />
               <ErrorMessage
                 name="email"
                 component="p"
-                className="text-btn-bg text-sm mb-2"
+                className="text-custom-red text-sm mb-2 -mt-4"
               />
 
               {/* PHONE */}
@@ -97,12 +98,12 @@ const Contact = () => {
               <Field
                 name="phone"
                 type="number"
-                className="w-full border border-contact-border p-[11px] md:p-[17px] rounded focus:outline-none mb-[14px]"
+                className="w-full border border-contact-border hover:border-active-nav duration-300 p-[11px] md:p-[17px] rounded focus:outline-none mb-[14px]"
               />
               <ErrorMessage
                 name="phone"
                 component="p"
-                className="text-btn-bg text-sm mb-2"
+                className="text-custom-red text-sm mb-2 -mt-4"
               />
 
               {/* MESSAGE */}
@@ -113,12 +114,12 @@ const Contact = () => {
                 as="textarea"
                 name="message"
                 rows={4}
-                className="w-full border border-contact-border p-2 md:p-6.5 rounded focus:outline-none"
+                className="w-full border border-contact-border hover:border-active-nav duration-300 p-2 md:p-6.5 rounded focus:outline-none"
               />
               <ErrorMessage
                 name="message"
                 component="p"
-                className="text-btn-bg text-sm mt-2"
+                className="text-custom-red text-sm mb-2 -mt-2"
               />
 
               {/* SUBMIT */}
@@ -129,7 +130,7 @@ const Contact = () => {
                   flex justify-center items-center
                   bg-btn-bg text-primary-text rounded mt-3 md:mt-2
                   transition-transform duration-300 ease-in-out
-                  hover:scale-105 hover:shadow-lg hover:brightness-110
+                  hover:scale-[1.03] hover:shadow-lg hover:brightness-110
                   disabled:opacity-50"
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
@@ -140,9 +141,9 @@ const Contact = () => {
 
         {/* RIGHT CONTENT */}
         <div className="flex flex-col gap-2 md:gap-4 w-full xl:w-1/2 mt-0 md:mt-10 lg:mt-23 xl:ml-1.5">
-          <p className="text-[14px] font-medium text-active-nav underline">
+          <Link href="/contact" className="text-[14px] font-medium text-active-nav underline">
             Contact Us
-          </p>
+          </Link>
 
           <p className="text-[20px] md:text-[32px] font-semibold leading-[125%]">
             Have a question? Our team is ready to assist you anytime.

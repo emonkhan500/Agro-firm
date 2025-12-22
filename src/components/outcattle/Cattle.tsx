@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const Cattle = async () => {
   const cattles = await getCattles();
-  console.log(cattles);
+
   return (
     <section className="mt-10 md:mt-25">
       <div className="wraper relative px-5 lg:px-10 xl:px-20 2xl:px-20">
@@ -12,13 +12,25 @@ const Cattle = async () => {
             <Link
               key={item.id}
               href={`/cattle/${item.id}`}
-              className="relative w-full h-[180px] md:h-[240px] lg:h-[302px] bg-cover bg-center rounded-lg"
+              className="relative w-full h-[180px] md:h-[240px] lg:h-[302px] rounded-lg overflow-hidden group"
               style={{
                 backgroundImage: `url(${item.image})`,
               }}
             >
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
-                <p className="px-4 lg:px-[30px] py-2 bg-secondary-bg rounded-t-lg text-center">
+              {/* IMAGE */}
+              <div
+                className="
+                  w-full h-full bg-cover bg-center transition-transform duration-500 ease-out
+                  group-hover:scale-105
+                "
+                style={{
+                  backgroundImage: `url(${item.image})`,
+                }}
+              ></div>
+
+              {/* TITLE */}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-10">
+                <p className="px-4 lg:px-[30px] py-2 duration-400 bg-secondary-bg hover:bg-active-nav hover:text-white rounded-t-lg text-center">
                   {item.title}
                 </p>
               </div>

@@ -1,7 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import type { Swiper as SwiperType } from 'swiper';
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css';
 
 export interface WhyUsItem {
   id: string;
@@ -16,6 +20,7 @@ interface Props {
 
 const WhyUs = ({ whyus }: Props) => {
   const [activeImage, setActiveImage] = useState(0);
+  const swiperRef = useRef<SwiperType | null>(null);
 
   return (
     <section className="mt-35 md:mt-0">
@@ -35,7 +40,10 @@ const WhyUs = ({ whyus }: Props) => {
             {whyus.map((item, index) => (
               <div
                 key={item.id}
-                onClick={() => setActiveImage(index)}
+                onClick={() => {
+                  setActiveImage(index);
+                  swiperRef.current?.slideToLoop(index);
+                }}
                 className={`flex gap-2.5 md:gap-7 items-center bg-primary-bg rounded-xl cursor-pointer border transition-all duration-300 ${
                   activeImage === index
                     ? 'border-call-bg'
@@ -68,18 +76,30 @@ const WhyUs = ({ whyus }: Props) => {
           </div>
         </div>
 
-        {/* RIGHT IMAGE */}
         <div className="h-[550px] md:h-[638px] w-full lg:w-[363px] xl:w-[448px] overflow-hidden">
-          {whyus[activeImage] && (
-            <Image
-              key={whyus[activeImage].id}
-              className="w-full h-full object-cover rounded-[200px_20px] transition-all duration-500 ease-in-out opacity-0 scale-95 animate-fadeIn"
-              src={whyus[activeImage].mainImage}
-              alt="about"
-              width={448}
-              height={628}
-            />
-          )}
+          <Swiper
+            modules={[Autoplay]}
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
+            autoplay={{
+              delay: 1500,
+              disableOnInteraction: false,
+            }}
+            loop
+            onSlideChange={(swiper) => setActiveImage(swiper.realIndex)}
+            className="h-full"
+          >
+            {whyus.map((item) => (
+              <SwiperSlide key={item.id}>
+                <Image
+                  className="w-full h-full object-cover rounded-[200px_20px] transition-all duration-500 ease-in-out opacity-0 scale-95 animate-fadeIn"
+                  src={item.mainImage}
+                  alt="about"
+                  width={448}
+                  height={628}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
     </section>

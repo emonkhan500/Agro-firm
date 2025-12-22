@@ -14,7 +14,7 @@ interface Product {
 }
 
 interface Props {
-  product: Product[]; 
+  product: Product[];
 }
 
 const Products = ({ product }: Props) => {
@@ -25,10 +25,13 @@ const Products = ({ product }: Props) => {
       <div className="wraper relative px-5 lg:px-16 xl:px-20 2xl:px-20">
         {/* Heading */}
         <div className=" md:mb-12 xl:mb-0">
-          <p className="text-[14px] font-medium text-active-nav underline leading-[120%] mb-2.5 md:mb-5">
+          <Link
+            href="/product"
+            className="text-[14px] font-medium text-active-nav underline leading-[120%] mb-2.5 md:mb-5"
+          >
             PRODUCTS
-          </p>
-          <p className="text-[20px] md:text-[32px] font-semibold md:font-medium leading-[120%] max-w-[314px] md:max-w-[520px] lg:max-w-[797px]">
+          </Link>
+          <p className="text-[20px] md:text-[32px] font-semibold md:font-medium  leading-[120%] max-w-[314px] md:max-w-[520px] lg:max-w-[797px]">
             Healthy, Organic & High-Quality Products Straight From Our Farm.
           </p>
         </div>
@@ -48,37 +51,35 @@ const Products = ({ product }: Props) => {
         >
           {product.map((item) => (
             <SwiperSlide key={item.id}>
-               <Link href={`/product/${item.id}`}>
-                <div
-                className="relative h-[302px] w-[302px] bg-cover bg-center rounded-lg transition-transform duration-300 hover:scale-105"
-                style={{
-                  backgroundImage: `url(${item.image})`,
-                }}
-              >
-                <div className="absolute bottom-0 left-18.5">
-                  <p className="px-[34px] py-2 bg-secondary-bg rounded-t-lg text-center">
-                    {item.title}
-                  </p>
+              <Link href={`/product/${item.id}`}>
+                <div className="relative h-[302px] w-[360px] md:w-[302px] rounded-lg overflow-hidden">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-300 hover:scale-[1.03]"
+                    style={{ backgroundImage: `url(${item.image})` }}
+                  />
+                  <div className="absolute bottom-0 left-[34px] right-[34px]">
+                    <p className=" py-2 bg-secondary-bg rounded-t-lg text-center hover:bg-active-nav hover:text-white duration-400">
+                      {item.title}
+                    </p>
+                  </div>
                 </div>
-              </div></Link>
-             
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
 
-        {/* Left / Right Button */}
-        <div className="absolute top-18  md:top-24 xl:top-17 right-4 md:right-21 flex gap-6">
+        <div className="absolute top-16  md:top-24 xl:top-17 right-4 md:right-21 flex items-center jaustify-center gap-2 md:gap-4 ">
           <button
             type="button"
             onClick={() => swiperRef.current?.slidePrev()}
-            className="w-5 md:w-[42px] h-5 md:h-[42px]"
+            className="w-[42px] h-[42px]"
           >
             <Left />
           </button>
           <button
             type="button"
             onClick={() => swiperRef.current?.slideNext()}
-            className="w-[42px] h-[42px]"
+            className="w-[42px] h-[42px] "
           >
             <Right />
           </button>

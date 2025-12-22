@@ -24,7 +24,7 @@ const Gallery = async () => {
                   src={thumb?.src || '/placeholder.svg'}
                   alt={item.title}
                   fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                 />
               </Link>
             );

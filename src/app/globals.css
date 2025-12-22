@@ -3,6 +3,8 @@
 @theme {
   --color-primary-text: #000000;
   --color-primary-bg: #efffdf;
+  --color-header-bg: #a4f356;
+  --color-header-text: rgb(16, 43, 36);
   --color-sidebar-bg: #f9f9f9;
   --color-gray: #f5f5f5;
   --color-red: #fef2f2;
@@ -16,7 +18,7 @@
   --color-active-nav: #007e6e;
   --color-btn-bg: #ffdd00;
   --color-contact-border: #747474;
-  --color-btn-hover-bg: #ffdd00;
+  --color-btn-hover-bg:#007e6e;
 }
 @theme {
   --breakpoint-desktop: 1400px;

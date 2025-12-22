@@ -20,7 +20,7 @@ interface Props {
 }
 
 const DashCattleManagement = ({ initialCattles }: Props) => {
-  console.log(initialCattles);
+ 
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [selectedCattle, setSelectedCattle] = useState<Cattle | null>(null);

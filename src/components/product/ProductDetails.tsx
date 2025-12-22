@@ -5,9 +5,8 @@ import DangerousHtml from '../shared/DangerousHtml';
 const ProductDetails = async ({ params }: { params: string }) => {
   const products = await getProducts();
   const id = Number(params);
+ const product = products.find((item) => item.id === id);
 
-  const product = products.find((item) => item.id === id);
-  console.log(typeof product?.description);
   if (!product) {
     return <p className="text-center mt-10">Product not found</p>;
   }
