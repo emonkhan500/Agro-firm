@@ -4,7 +4,7 @@ Agro-Firm is a modern agriculture-based web application built with **Next.js App
 The platform provides a clean interface where users can explore agricultural products and manage content through an admin dashboard.
 
 ## Live Website
-https://agro-firm.vercel.app/
+https://agro-firm-snowy.vercel.app/
 
 ##  Tech Stack
 
@@ -90,3 +90,4 @@ Passionate about building modern web applications with React and Next.js.
 
 ---
  If you like this project, give it a star on GitHub.
+
