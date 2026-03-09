@@ -45,14 +45,14 @@ const Products = ({ product }: Props) => {
           breakpoints={{
             768: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
-            1280: { slidesPerView: 4 },
+            
           }}
           className="mt-3 md:mt-5"
         >
           {product.map((item) => (
             <SwiperSlide key={item.id}>
               <Link href={`/product/${item.id}`}>
-                <div className="relative h-[302px] w-[360px] md:w-[302px] rounded-lg overflow-hidden">
+                <div className="relative h-[260px] w-[350px] small:w-full md:w-[302px] rounded-lg overflow-hidden">
                   <div
                     className="absolute inset-0 bg-cover bg-center transition-transform duration-300 hover:scale-[1.03]"
                     style={{ backgroundImage: `url(${item.image})` }}

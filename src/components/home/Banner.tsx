@@ -23,7 +23,7 @@ const Banner = ({ banners }: Props) => {
     <Swiper
       loop
       modules={[Autoplay]}
-      autoplay={{ delay: 2000, disableOnInteraction: false }}
+      autoplay={{ delay: 1000, disableOnInteraction: false }}
       className="banner-swiper"
     >
       {banners.map((slide) => (
