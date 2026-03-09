@@ -54,12 +54,13 @@ const Header = () => {
             );
           })}
         </nav>
-        <Link href="/contact">
+        
+        <Link href="/dashboard">
           <button
             className="hidden md:block h-[39px] w-[145px] transition duration-500 
            text-white rounded-full font-bold text-[16px] bg-btn-bg hover:bg-btn-hover-bg"
           >
-            CALL NOW
+            Dashboard
           </button>
         </Link>
 
@@ -73,7 +74,7 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="absolute  right-0 w-full bg-primary-bg z-10 flex flex-col items-center gap-6 py-8 md:hidden">
+        <div className="absolute right-0 w-full bg-primary-bg z-10 flex flex-col items-center gap-4 py-4 md:hidden">
           {navItems.map((item) => {
             const isActive = pathname === item.path;
             return (
@@ -89,11 +90,14 @@ const Header = () => {
             );
           })}
 
-          <Link href="/contact">
-            <button className="hidden md:block h-[39px] w-[145px] rounded-full font-bold text-[16px] bg-btn-bg hover:bg-btn-hover-bg">
-              CALL NOW
-            </button>
-          </Link>
+          <Link href="/dashboard">
+          <button
+            className="px-4 py-1 transition duration-500 
+           text-white rounded-full semibold text-[16px] bg-btn-bg hover:bg-btn-hover-bg"
+          >
+            Dashboard
+          </button>
+        </Link>
         </div>
       )}
     </header>
