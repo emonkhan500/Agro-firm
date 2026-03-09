@@ -1,4 +1,4 @@
-import Terms from '@/components/terms/Terms';
+import Terms from '@/components/Terms/Terms';
 import SharedBanner from '@/components/ui/SharedBanner';
 
 const TermsView = () => {
